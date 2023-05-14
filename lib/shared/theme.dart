@@ -9,6 +9,7 @@ const Color kBlackColor = Color(0xff000000);
 const Color kBackgroundColor = Color(0xfff8f8f8);
 const Color kWhiteColor = Color(0xfffcfbf3);
 const Color kGreyColor = Color(0xff747474);
+const Color kSkinColor = Color(0xffedbf89);
 
 TextStyle blackTextStyle = GoogleFonts.poppins(
   color: kBlackColor,
