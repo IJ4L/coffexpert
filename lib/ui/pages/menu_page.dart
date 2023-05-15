@@ -86,12 +86,85 @@ class Menuscreen extends StatelessWidget {
                 decoration: const BoxDecoration(color: kPrimaryColor),
               ),
               Container(
-                height: 290.h,
+                height: 350.h,
+                width: double.infinity,
+                padding: EdgeInsets.all(30.r),
                 decoration: const BoxDecoration(
                   color: kWhiteColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(50),
                   ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        width: 140.w,
+                        padding: EdgeInsets.all(16.r),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Diagnosa\nPenyakit',
+                                style: cocolateTextStyle),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Test Now', style: cocolateTextStyle),
+                                const Icon(
+                                  Icons.arrow_forward_outlined,
+                                  color: kSecondColor,
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: 140.h,
+                          width: 140.w,
+                          padding: EdgeInsets.all(16.r),
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Hama dan\nPenyakit',
+                                style: cocolateTextStyle,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 140.h,
+                          width: 140.w,
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.logout_outlined,
+                              color: kSecondColor,
+                              size: 30.r,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
