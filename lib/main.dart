@@ -1,4 +1,5 @@
 import 'package:coffe_brain/ui/pages/diagnosis_page.dart';
+import 'package:coffe_brain/ui/pages/diagnosis_value_page.dart';
 import 'package:coffe_brain/ui/pages/menu_page.dart';
 import 'package:coffe_brain/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
             '/': (context) => const Splashscreen(),
             '/menu-utama': (context) => const Menuscreen(),
             '/diagnosis': (context) => const Diagnosisscreen(),
+            '/diagnosis-value': (context) => const Diagnosisvalue(),
           },
         );
       },

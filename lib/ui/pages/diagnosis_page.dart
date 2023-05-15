@@ -18,12 +18,15 @@ class Diagnosisscreen extends StatelessWidget {
           child: const Icon(Icons.arrow_back_ios_outlined, color: kBlackColor),
         ),
         actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 22.w),
-            child: SvgPicture.asset(
-              'assets/icons/ico_science.svg',
-              width: 22.r,
-              height: 22.r,
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/diagnosis-value'),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 22.w),
+              child: SvgPicture.asset(
+                'assets/icons/ico_science.svg',
+                width: 22.r,
+                height: 22.r,
+              ),
             ),
           ),
         ],
@@ -56,33 +59,31 @@ class Diagnosisscreen extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 itemBuilder: (context, index) {
-                  return Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(14.r),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.r),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: kPrimaryColor,
-                            offset: Offset(0, 2),
-                            blurStyle: BlurStyle.outer,
+                  return Container(
+                    padding: EdgeInsets.all(14.r),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.r),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: kPrimaryColor,
+                          offset: Offset(0, 2),
+                          blurStyle: BlurStyle.outer,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('${index + 1}.', style: blackTextStyle),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: Text(
+                            'Pada daun terdapat bercak kuning',
+                            style: blackTextStyle,
                           ),
-                        ],
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${index + 1}.', style: blackTextStyle),
-                          SizedBox(width: 12.w),
-                          Expanded(
-                            child: Text(
-                              'Pada daun terdapat bercak kuning',
-                              style: blackTextStyle,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },
