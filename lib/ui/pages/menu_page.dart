@@ -99,7 +99,10 @@ class Menuscreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        '/diagnosis',
+                      ),
                       child: Container(
                         width: 140.w,
                         padding: EdgeInsets.all(16.r),
@@ -130,21 +133,23 @@ class Menuscreen extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          height: 140.h,
-                          width: 140.w,
-                          padding: EdgeInsets.all(16.r),
-                          decoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Hama dan\nPenyakit',
-                                style: cocolateTextStyle,
-                              ),
-                            ],
+                        GestureDetector(
+                          child: Container(
+                            height: 140.h,
+                            width: 140.w,
+                            padding: EdgeInsets.all(16.r),
+                            decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Hama dan\nPenyakit',
+                                  style: cocolateTextStyle,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Container(

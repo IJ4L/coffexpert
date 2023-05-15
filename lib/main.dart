@@ -1,3 +1,4 @@
+import 'package:coffe_brain/ui/pages/diagnosis_page.dart';
 import 'package:coffe_brain/ui/pages/menu_page.dart';
 import 'package:coffe_brain/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/': (context) => const Splashscreen(),
             '/menu-utama': (context) => const Menuscreen(),
+            '/diagnosis': (context) => const Diagnosisscreen(),
           },
         );
       },
