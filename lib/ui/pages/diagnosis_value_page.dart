@@ -1,4 +1,6 @@
+import 'package:coffe_brain/cubit/updown_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../shared/theme.dart';
 
@@ -56,37 +58,53 @@ class Diagnosisvalue extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  Container(
-                    height: 39.h,
-                    width: 310.w,
-                    margin: EdgeInsets.symmetric(vertical: 25.h),
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(50.r),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Solusi',
-                          style: blackTextStyle,
-                        ),
-                        const Icon(Icons.arrow_drop_down)
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 310.w,
-                    padding: EdgeInsets.all(22.r),
-                    decoration: BoxDecoration(
-                      color: kPrimaryColor,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Text(
-                      'Lorem ipsum dolor sit amet consectetur. Metus donec interdum enim sem id montes. Risus malesuada feugiat amet mi dignissim. Viverra pellentesque ut arcu rhoncus eu. Ac morbi nunc arcu suspendisse lacinia. Vivamus vulputate hac vel velit at facilisis lectus at diam. Lorem habitant eu.',
-                      style: blackTextStyle,
-                    ),
+                  BlocBuilder<UpdownCubit, bool>(
+                    builder: (context, state) {
+                      return Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () => context.read<UpdownCubit>().klik(),
+                            child: Container(
+                              height: 39.h,
+                              width: 310.w,
+                              margin: EdgeInsets.symmetric(vertical: 25.h),
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              decoration: BoxDecoration(
+                                color: kPrimaryColor,
+                                borderRadius: BorderRadius.circular(50.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Solusi',
+                                    style: blackTextStyle,
+                                  ),
+                                  state == true
+                                      ? const Icon(Icons.arrow_drop_up_outlined)
+                                      : const Icon(Icons.arrow_drop_down)
+                                ],
+                              ),
+                            ),
+                          ),
+                          state == true
+                              ? Container(
+                                  width: 310.w,
+                                  padding: EdgeInsets.all(22.r),
+                                  decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Text(
+                                    'Lorem ipsum dolor sit amet consectetur. Metus donec interdum enim sem id montes. Risus malesuada feugiat amet mi dignissim. Viverra pellentesque ut arcu rhoncus eu. Ac morbi nunc arcu suspendisse lacinia. Vivamus vulputate hac vel velit at facilisis lectus at diam. Lorem habitant eu.',
+                                    style: blackTextStyle,
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      );
+                    },
                   )
                 ],
               ),

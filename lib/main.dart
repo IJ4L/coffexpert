@@ -1,8 +1,10 @@
+import 'package:coffe_brain/cubit/updown_cubit.dart';
 import 'package:coffe_brain/ui/pages/diagnosis_page.dart';
 import 'package:coffe_brain/ui/pages/diagnosis_value_page.dart';
 import 'package:coffe_brain/ui/pages/menu_page.dart';
 import 'package:coffe_brain/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
@@ -18,8 +20,13 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) {
-        return MaterialApp(
+      builder: (context, child) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => UpdownCubit(),
+          ),
+        ],
+        child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'First Method',
           initialRoute: '/',
@@ -29,8 +36,8 @@ class MyApp extends StatelessWidget {
             '/diagnosis': (context) => const Diagnosisscreen(),
             '/diagnosis-value': (context) => const Diagnosisvalue(),
           },
-        );
-      },
+        ),
+      ),
     );
   }
 }
