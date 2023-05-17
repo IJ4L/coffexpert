@@ -61,11 +61,14 @@ class Diagnosisscreen extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 itemBuilder: (context, index) {
-                  return BlocBuilder<SelectGejalaCubit, int>(
+                  return BlocBuilder<SelectGejalaCubit, List<int>>(
                     builder: (context, state) {
+                      final isSelected = state.contains(index);
+                      final selectEvent = context.read<SelectGejalaCubit>();
                       return GestureDetector(
-                        onTap: () =>
-                            context.read<SelectGejalaCubit>().select(index),
+                        onTap: () => isSelected != true
+                            ? selectEvent.select(index)
+                            : selectEvent.unselect(index),
                         child: Container(
                           padding: EdgeInsets.all(14.r),
                           decoration: BoxDecoration(
@@ -73,16 +76,13 @@ class Diagnosisscreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8.r),
                             boxShadow: [
                               BoxShadow(
-                                color: state == index
-                                    ? kGreenColor
-                                    : kPrimaryColor,
+                                color: isSelected ? kGreenColor : kPrimaryColor,
                                 offset: const Offset(0, 2),
                                 blurStyle: BlurStyle.outer,
                               ),
                             ],
                           ),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('${index + 1}.', style: blackTextStyle),
                               SizedBox(width: 12.w),
@@ -92,6 +92,11 @@ class Diagnosisscreen extends StatelessWidget {
                                   style: blackTextStyle,
                                 ),
                               ),
+                              isSelected != false
+                                  ? SvgPicture.asset(
+                                      'assets/icons/ico_succses.svg',
+                                    )
+                                  : Container()
                             ],
                           ),
                         ),
@@ -109,3 +114,6 @@ class Diagnosisscreen extends StatelessWidget {
     );
   }
 }
+
+
+//081527029703
