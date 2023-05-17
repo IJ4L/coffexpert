@@ -1,1 +1,1 @@
-![alt text](assets/frame 1.png)
+![alt text](assets/Frame 1.png)
