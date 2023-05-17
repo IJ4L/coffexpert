@@ -1,3 +1,4 @@
+import 'package:coffe_brain/cubit/select_gejala_cubit.dart';
 import 'package:coffe_brain/cubit/updown_cubit.dart';
 import 'package:coffe_brain/ui/pages/diagnosis_page.dart';
 import 'package:coffe_brain/ui/pages/diagnosis_value_page.dart';
@@ -22,9 +23,8 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) => MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => UpdownCubit(),
-          ),
+          BlocProvider(create: (context) => UpdownCubit()),
+          BlocProvider(create: (context) => SelectGejalaCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

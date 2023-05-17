@@ -1,5 +1,7 @@
+import 'package:coffe_brain/cubit/select_gejala_cubit.dart';
 import 'package:coffe_brain/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -59,32 +61,42 @@ class Diagnosisscreen extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 itemBuilder: (context, index) {
-                  return Container(
-                    padding: EdgeInsets.all(14.r),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8.r),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: kPrimaryColor,
-                          offset: Offset(0, 2),
-                          blurStyle: BlurStyle.outer,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${index + 1}.', style: blackTextStyle),
-                        SizedBox(width: 12.w),
-                        Expanded(
-                          child: Text(
-                            'Pada daun terdapat bercak kuning',
-                            style: blackTextStyle,
+                  return BlocBuilder<SelectGejalaCubit, int>(
+                    builder: (context, state) {
+                      return GestureDetector(
+                        onTap: () =>
+                            context.read<SelectGejalaCubit>().select(index),
+                        child: Container(
+                          padding: EdgeInsets.all(14.r),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8.r),
+                            boxShadow: [
+                              BoxShadow(
+                                color: state == index
+                                    ? kGreenColor
+                                    : kPrimaryColor,
+                                offset: const Offset(0, 2),
+                                blurStyle: BlurStyle.outer,
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${index + 1}.', style: blackTextStyle),
+                              SizedBox(width: 12.w),
+                              Expanded(
+                                child: Text(
+                                  'Pada daun terdapat bercak kuning',
+                                  style: blackTextStyle,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   );
                 },
                 separatorBuilder: (_, index) => SizedBox(height: 16.h),
