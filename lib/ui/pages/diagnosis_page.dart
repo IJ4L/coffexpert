@@ -1,4 +1,5 @@
 import 'package:coffe_brain/cubit/select_gejala_cubit.dart';
+import 'package:coffe_brain/shared/string.dart';
 import 'package:coffe_brain/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,7 +89,7 @@ class Diagnosisscreen extends StatelessWidget {
                               SizedBox(width: 12.w),
                               Expanded(
                                 child: Text(
-                                  'Pada daun terdapat bercak kuning',
+                                  gejala[index],
                                   style: blackTextStyle,
                                 ),
                               ),
@@ -105,7 +106,7 @@ class Diagnosisscreen extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (_, index) => SizedBox(height: 16.h),
-                itemCount: 10,
+                itemCount: 30,
               ),
             )
           ],
@@ -114,6 +115,8 @@ class Diagnosisscreen extends StatelessWidget {
     );
   }
 }
+
+
 
 
 //081527029703
