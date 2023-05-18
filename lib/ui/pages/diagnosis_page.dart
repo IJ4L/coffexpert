@@ -21,16 +21,20 @@ class Diagnosisscreen extends StatelessWidget {
           child: const Icon(Icons.arrow_back_ios_outlined, color: kBlackColor),
         ),
         actions: [
-          GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/diagnosis-value'),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 22.w),
-              child: SvgPicture.asset(
-                'assets/icons/ico_science.svg',
-                width: 22.r,
-                height: 22.r,
-              ),
-            ),
+          BlocBuilder<SelectGejalaCubit, List<int>>(
+            builder: (context, state) {
+              return GestureDetector(
+                onTap: () => Navigator.pushNamed(context, '/diagnosis-value'),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 22.w),
+                  child: SvgPicture.asset(
+                    'assets/icons/ico_science.svg',
+                    width: 22.r,
+                    height: 22.r,
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),

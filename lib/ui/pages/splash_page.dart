@@ -45,7 +45,8 @@ class Splashscreen extends StatelessWidget {
                   ),
                   Text(
                     'Lorem ipsum dolor sit amet consectetur.\nCommodo morbi quis maecenas lacus\nvestibulum ultricies risus. ',
-                    style: blackTextStyle.copyWith(fontWeight: regular),
+                    style: blackTextStyle.copyWith(
+                        fontWeight: regular, fontSize: 16.sp),
                     textAlign: TextAlign.center,
                   ),
                   GestureDetector(
