@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'First Method',
           initialRoute: '/',
           routes: {
             '/': (context) => const Splashscreen(),

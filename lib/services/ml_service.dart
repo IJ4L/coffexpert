@@ -87,8 +87,7 @@ class NaiveBayes {
   }
 }
 
-Future<Either<String, String>> procesNaiveBayes(
-    List<String> selectedGejala) async {
+Future<Either<String, String>> procesNaiveBayes(List<String> gejala) async {
   final classifier = NaiveBayes();
 
   classifier.addEvidence(['G2', 'G3', 'G9'], 'Penggerek Buah Kopi');
@@ -143,10 +142,14 @@ Future<Either<String, String>> procesNaiveBayes(
   //Gejala ke-4
   classifier.addEvidence(['G19', 'G20'], 'Kutu Hijau');
   classifier.addEvidence(['G20', 'G19'], 'Kutu Hijau');
+  classifier.addEvidence(['G19'], 'Kutu Hijau');
+  classifier.addEvidence(['G20'], 'Kutu Hijau');
 
   //Gejala ke-5
   classifier.addEvidence(['G21', 'G22'], 'Kutu Putih');
   classifier.addEvidence(['G22', 'G21'], 'Kutu Putih');
+  classifier.addEvidence(['G22'], 'Kutu Putih');
+  classifier.addEvidence(['G21'], 'Kutu Putih');
 
   //Gejala ke-6
   classifier.addEvidence(['G11', 'G13', 'G1'], 'Karat Daun Kopi');
@@ -195,10 +198,12 @@ Future<Either<String, String>> procesNaiveBayes(
   //Gejala ke-10
   classifier.addEvidence(['G27', 'G29'], 'Penyakit Akar');
   classifier.addEvidence(['G29', 'G27'], 'Penyakit Akar');
+  classifier.addEvidence(['G27'], 'Penyakit Akar');
+  classifier.addEvidence(['G29'], 'Penyakit Akar');
 
   classifier.calculateFeatureWeights();
 
-  final featuresToPredict = selectedGejala;
+  final featuresToPredict = gejala;
 
   bool areFeaturesValid = true;
   for (final feature in featuresToPredict) {
@@ -209,7 +214,7 @@ Future<Either<String, String>> procesNaiveBayes(
     }
   }
 
-  if (areFeaturesValid) {
+  if (areFeaturesValid && gejala.isNotEmpty) {
     final prediction = classifier.predict(featuresToPredict);
     final predictedClass = classifier.getPredictedClass(prediction);
 
