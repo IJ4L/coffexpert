@@ -7,10 +7,13 @@ part 'naive_bayes_proces_state.dart';
 class NaiveBayesProcesCubit extends Cubit<NaiveBayesProcesState> {
   NaiveBayesProcesCubit() : super(NaiveBayesProcesInitial());
 
-  void onPredict() async {
+  void onPredict(List<String> selectedGejala) async {
     emit(NaiveBayesProcesLoading());
 
-    final result = await procesNaiveBayes();
-    result.fold((l) => null, (r) => null);
+    final result = await procesNaiveBayes(selectedGejala);
+    result.fold(
+      (message) => emit(NaiveBayesProcesFailure(message)),
+      (value) => emit(NaiveBayesProcesLoaded(value)),
+    );
   }
 }

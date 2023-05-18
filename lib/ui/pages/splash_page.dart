@@ -35,7 +35,7 @@ class Splashscreen extends StatelessWidget {
                     textScaleFactor: 1,
                   ),
                   Container(
-                    height: 2.h,
+                    height: 4.h,
                     width: 100.w,
                     margin: EdgeInsets.symmetric(vertical: 12.h),
                     decoration: BoxDecoration(
@@ -43,10 +43,11 @@ class Splashscreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
+                  SizedBox(height: 22.h),
                   Text(
                     'Lorem ipsum dolor sit amet consectetur.\nCommodo morbi quis maecenas lacus\nvestibulum ultricies risus. ',
                     style: blackTextStyle.copyWith(
-                        fontWeight: regular, fontSize: 16.sp),
+                        fontWeight: regular, fontSize: 14.sp),
                     textAlign: TextAlign.center,
                   ),
                   GestureDetector(
@@ -69,6 +70,7 @@ class Splashscreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Spacer(),
                 ],
               ),
             ),

@@ -87,7 +87,8 @@ class NaiveBayes {
   }
 }
 
-Future<Either<String, String>> procesNaiveBayes() async {
+Future<Either<String, String>> procesNaiveBayes(
+    List<String> selectedGejala) async {
   final classifier = NaiveBayes();
 
   classifier.addEvidence(['G2', 'G3', 'G9'], 'Penggerek Buah Kopi');
@@ -197,7 +198,7 @@ Future<Either<String, String>> procesNaiveBayes() async {
 
   classifier.calculateFeatureWeights();
 
-  final featuresToPredict = ['G1', 'G9', '4'];
+  final featuresToPredict = selectedGejala;
 
   bool areFeaturesValid = true;
   for (final feature in featuresToPredict) {
@@ -213,11 +214,11 @@ Future<Either<String, String>> procesNaiveBayes() async {
     final predictedClass = classifier.getPredictedClass(prediction);
 
     if (predictedClass != null) {
-      return Left('Hasil prediksi: $predictedClass');
+      return Right('Hasil prediksi: $predictedClass');
     } else {
-      return const Right('Tidak dapat memprediksi kelas.');
+      return const Left('Tidak dapat memprediksi kelas.');
     }
   } else {
-    return const Right('Fitur yang dimasukkan tidak ada dalam data pelatihan.');
+    return const Left('Fitur yang dimasukkan tidak ada dalam data pelatihan.');
   }
 }

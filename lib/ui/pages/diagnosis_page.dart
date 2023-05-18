@@ -1,6 +1,8 @@
+import 'package:coffe_brain/cubit/naive_bayes/naive_bayes_proces_cubit.dart';
 import 'package:coffe_brain/cubit/select_gejala_cubit.dart';
 import 'package:coffe_brain/shared/string.dart';
 import 'package:coffe_brain/shared/theme.dart';
+import 'package:coffe_brain/ui/util/convert_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,17 +25,25 @@ class Diagnosisscreen extends StatelessWidget {
         actions: [
           BlocBuilder<SelectGejalaCubit, List<int>>(
             builder: (context, state) {
-              return GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/diagnosis-value'),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 22.w),
-                  child: SvgPicture.asset(
-                    'assets/icons/ico_science.svg',
-                    width: 22.r,
-                    height: 22.r,
+              if (state.length >= 2) {
+                return GestureDetector(
+                  onTap: () {
+                    context
+                        .read<NaiveBayesProcesCubit>()
+                        .onPredict(convertData(state));
+                    Navigator.pushNamed(context, '/diagnosis-value');
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 22.w),
+                    child: SvgPicture.asset(
+                      'assets/icons/ico_science.svg',
+                      width: 22.r,
+                      height: 22.r,
+                    ),
                   ),
-                ),
-              );
+                );
+              }
+              return Container();
             },
           ),
         ],
