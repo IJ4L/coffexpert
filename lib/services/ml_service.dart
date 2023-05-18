@@ -219,6 +219,7 @@ Future<Either<String, String>> procesNaiveBayes(List<String> gejala) async {
     final predictedClass = classifier.getPredictedClass(prediction);
 
     if (predictedClass != null) {
+      print(prediction);
       return Right(predictedClass);
     } else {
       return const Left('Tidak dapat memprediksi kelas.');

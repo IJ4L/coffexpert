@@ -28,7 +28,17 @@ class Diagnosisscreen extends StatelessWidget {
           BlocConsumer<NaiveBayesProcesCubit, NaiveBayesProcesState>(
             listener: (context, state) {
               if (state is NaiveBayesProcesFailure) {
-                print(state);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Pilih Gejala !! (1 sampai 4)',
+                      style: cocolateTextStyle.copyWith(fontWeight: semiBold),
+                    ),
+                    backgroundColor: kPrimaryColor,
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(milliseconds: 1500),
+                  ),
+                );
               }
 
               if (state is NaiveBayesProcesLoaded) {
@@ -43,8 +53,8 @@ class Diagnosisscreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 22.w),
                   child: SvgPicture.asset(
                     'assets/icons/ico_science.svg',
-                    width: 22.r,
-                    height: 22.r,
+                    width: 20.r,
+                    height: 20.r,
                   ),
                 ),
               );
@@ -53,13 +63,13 @@ class Diagnosisscreen extends StatelessWidget {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 34.w, vertical: 16.h),
+        padding: EdgeInsets.symmetric(horizontal: 34.w, vertical: 10.h),
         child: Column(
           children: [
             Container(
               height: 48.h,
               width: double.infinity,
-              margin: EdgeInsets.only(bottom: 30.h),
+              margin: EdgeInsets.only(bottom: 20.h),
               decoration: BoxDecoration(
                 color: kPrimaryColor,
                 borderRadius: BorderRadius.only(

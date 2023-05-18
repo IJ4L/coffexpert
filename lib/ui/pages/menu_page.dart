@@ -42,9 +42,10 @@ class Menuscreen extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(top: 26.h),
                         child: Text(
-                          'Lorem ipsum dolor sit amet consectetur. Aliquam duis odio mattis risus felis nibh. Elit imperdiet aliquam odio urna amet pulvinar ultrices. Integer ultrices in quis pellentesque eu in convallis. ',
+                          'Aplikasi ini dirancang agar memberikan bantuan kepada para petani untuk mengelola tanaman kopi. dan sudah menggunakan kecerdasan buatan untuk menganalisis data dan memberi rekomendasi akurat terhadp kondisi tanaman kopi.',
                           style: cocolateTextStyle.copyWith(
                             fontWeight: regular,
+                            fontSize: 14,
                           ),
                           textScaleFactor: 1,
                         ),
@@ -86,7 +87,7 @@ class Menuscreen extends StatelessWidget {
                 decoration: const BoxDecoration(color: kPrimaryColor),
               ),
               Container(
-                height: 350.h,
+                height: 390.h,
                 width: double.infinity,
                 padding: EdgeInsets.all(30.r),
                 decoration: const BoxDecoration(
@@ -107,7 +108,12 @@ class Menuscreen extends StatelessWidget {
                         width: 140.w,
                         padding: EdgeInsets.all(16.r),
                         decoration: BoxDecoration(
-                          color: kPrimaryColor,
+                          image: const DecorationImage(
+                            image: AssetImage(
+                              'assets/images/img_button1.png',
+                            ),
+                            fit: BoxFit.cover,
+                          ),
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         child: Column(
@@ -135,14 +141,20 @@ class Menuscreen extends StatelessWidget {
                       children: [
                         GestureDetector(
                           child: Container(
-                            height: 140.h,
+                            height: 160.h,
                             width: 140.w,
                             padding: EdgeInsets.all(16.r),
                             decoration: BoxDecoration(
-                              color: kPrimaryColor,
                               borderRadius: BorderRadius.circular(12.r),
+                              image: const DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/img_button2.png',
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Hama dan\nPenyakit',
@@ -153,17 +165,29 @@ class Menuscreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          height: 140.h,
+                          height: 160.h,
                           width: 140.w,
+                          padding: EdgeInsets.all(25.r),
                           decoration: BoxDecoration(
-                            color: kPrimaryColor,
+                            image: const DecorationImage(
+                              image: AssetImage(
+                                'assets/images/img_button3.png',
+                              ),
+                              fit: BoxFit.cover,
+                            ),
                             borderRadius: BorderRadius.circular(12.r),
                           ),
-                          child: Center(
-                            child: Icon(
-                              Icons.logout_outlined,
-                              color: kSecondColor,
-                              size: 30.r,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.logout_outlined,
+                                color: kSecondColor,
+                                size: 30.r,
+                              ),
                             ),
                           ),
                         ),

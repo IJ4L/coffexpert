@@ -18,6 +18,7 @@ class Diagnosisvalue extends StatelessWidget {
           onTap: () => Navigator.pop(context),
           child: const Icon(Icons.arrow_back_ios_outlined, color: kBlackColor),
         ),
+        actions: [],
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
