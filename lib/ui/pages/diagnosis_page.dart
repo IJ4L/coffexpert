@@ -13,6 +13,8 @@ class Diagnosisscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final naiveCubit = context.read<NaiveBayesProcesCubit>();
+    final selectEvent = context.read<SelectGejalaCubit>();
     return Scaffold(
       backgroundColor: const Color(0xfff8f8f8),
       appBar: AppBar(
@@ -23,29 +25,31 @@ class Diagnosisscreen extends StatelessWidget {
           child: const Icon(Icons.arrow_back_ios_outlined, color: kBlackColor),
         ),
         actions: [
-          BlocBuilder<SelectGejalaCubit, List<int>>(
-            builder: (context, state) {
-              if (state.length >= 2) {
-                return GestureDetector(
-                  onTap: () {
-                    context
-                        .read<NaiveBayesProcesCubit>()
-                        .onPredict(convertData(state));
-                    Navigator.pushNamed(context, '/diagnosis-value');
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 22.w),
-                    child: SvgPicture.asset(
-                      'assets/icons/ico_science.svg',
-                      width: 22.r,
-                      height: 22.r,
-                    ),
-                  ),
-                );
+          BlocConsumer<NaiveBayesProcesCubit, NaiveBayesProcesState>(
+            listener: (context, state) {
+              if (state is NaiveBayesProcesFailure) {
+                print(state);
               }
-              return Container();
+
+              if (state is NaiveBayesProcesLoaded) {
+                Navigator.pushNamed(context, '/diagnosis-value');
+              }
             },
-          ),
+            builder: (context, state) {
+              return GestureDetector(
+                onTap: () =>
+                    naiveCubit.onPredict(convertData(selectEvent.state)),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 22.w),
+                  child: SvgPicture.asset(
+                    'assets/icons/ico_science.svg',
+                    width: 22.r,
+                    height: 22.r,
+                  ),
+                ),
+              );
+            },
+          )
         ],
       ),
       body: Padding(
@@ -79,7 +83,6 @@ class Diagnosisscreen extends StatelessWidget {
                   return BlocBuilder<SelectGejalaCubit, List<int>>(
                     builder: (context, state) {
                       final isSelected = state.contains(index);
-                      final selectEvent = context.read<SelectGejalaCubit>();
                       return GestureDetector(
                         onTap: () => isSelected != true
                             ? selectEvent.select(index)

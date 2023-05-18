@@ -214,11 +214,11 @@ Future<Either<String, String>> procesNaiveBayes(
     final predictedClass = classifier.getPredictedClass(prediction);
 
     if (predictedClass != null) {
-      return Right('Hasil prediksi: $predictedClass');
+      return Right(predictedClass);
     } else {
       return const Left('Tidak dapat memprediksi kelas.');
     }
   } else {
-    return const Left('Fitur yang dimasukkan tidak ada dalam data pelatihan.');
+    return const Left('Fitur yang dimasukkan tidak ada dalam data pelatihan');
   }
 }
