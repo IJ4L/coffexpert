@@ -21,7 +21,10 @@ class Diagnosisscreen extends StatelessWidget {
         backgroundColor: kWhiteColor,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            Navigator.pop(context);
+            selectEvent.unselectAll();
+          },
           child: const Icon(Icons.arrow_back_ios_outlined, color: kBlackColor),
         ),
         actions: [
@@ -135,15 +138,10 @@ class Diagnosisscreen extends StatelessWidget {
                 separatorBuilder: (_, index) => SizedBox(height: 16.h),
                 itemCount: 30,
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-//081527029703

@@ -1,4 +1,5 @@
 import 'package:coffe_brain/cubit/naive_bayes/naive_bayes_proces_cubit.dart';
+import 'package:coffe_brain/cubit/select_gejala_cubit.dart';
 import 'package:coffe_brain/cubit/updown_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,15 +11,38 @@ class Diagnosisvalue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final selectEvent = context.read<SelectGejalaCubit>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kPrimaryColor,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            Navigator.pop(context);
+            selectEvent.unselectAll();
+          },
           child: const Icon(Icons.arrow_back_ios_outlined, color: kBlackColor),
         ),
-        actions: [],
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: GestureDetector(
+              onTap: () {
+                selectEvent.unselectAll();
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/menu-utama',
+                  (route) => false,
+                );
+              },
+              child: Icon(
+                Icons.close_outlined,
+                color: kBlackColor,
+                size: 24.r,
+              ),
+            ),
+          ),
+        ],
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,

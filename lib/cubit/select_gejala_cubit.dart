@@ -16,4 +16,6 @@ class SelectGejalaCubit extends Cubit<List<int>> {
     newState.remove(index);
     emit(newState);
   }
+
+  void unselectAll() => emit([]);
 }
