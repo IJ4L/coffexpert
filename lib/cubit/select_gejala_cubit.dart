@@ -5,8 +5,10 @@ class SelectGejalaCubit extends Cubit<List<int>> {
 
   void select(int index) {
     List<int> newState = List.from(state);
-    newState.add(index);
-    emit(newState);
+    if (newState.length < 4) {
+      newState.add(index);
+      emit(newState);
+    }
   }
 
   void unselect(int index) {
