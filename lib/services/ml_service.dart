@@ -62,12 +62,12 @@ class NaiveBayes {
         }
       }
 
-      probabilities[className] = classProbability * featureProbability;
+      probabilities[className] = classProbability * featureProbability * 100;
     }
 
     final totalProbability = probabilities.values.reduce((a, b) => a + b);
-    probabilities
-        .updateAll((className, probability) => probability / totalProbability);
+    probabilities.updateAll((className, probability) =>
+        double.parse((probability / totalProbability).toStringAsFixed(2)));
 
     return probabilities;
   }

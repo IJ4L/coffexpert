@@ -51,7 +51,10 @@ class Splashscreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, '/menu-utama'),
+                    onTap: () => Navigator.pushReplacementNamed(
+                      context,
+                      '/menu-utama',
+                    ),
                     child: Container(
                       height: 36.h,
                       width: 150.w,
