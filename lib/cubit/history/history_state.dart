@@ -8,3 +8,14 @@ abstract class HistoryState extends Equatable {
 }
 
 class HistoryInitial extends HistoryState {}
+
+class HistoryLoading extends HistoryState {}
+
+class HistoryLoaded extends HistoryState {
+  final List<HistoryModel> history;
+
+  const HistoryLoaded(this.history);
+
+  @override
+  List<Object> get props => [history];
+}

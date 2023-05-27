@@ -13,7 +13,7 @@ class NaiveBayesProcesCubit extends Cubit<NaiveBayesProcesState> {
     final result = await procesNaiveBayes(selectedGejala);
     result.fold(
       (message) => emit(NaiveBayesProcesFailure(message)),
-      (value) => emit(NaiveBayesProcesLoaded(value)),
+      (value) => emit(NaiveBayesProcesLoaded(value, selectedGejala)),
     );
   }
 }

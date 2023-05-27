@@ -1,5 +1,7 @@
+import 'package:coffe_brain/cubit/history/history_cubit.dart';
 import 'package:coffe_brain/cubit/naive_bayes/naive_bayes_proces_cubit.dart';
 import 'package:coffe_brain/cubit/select_gejala_cubit.dart';
+import 'package:coffe_brain/models/history_model.dart';
 import 'package:coffe_brain/shared/string.dart';
 import 'package:coffe_brain/shared/theme.dart';
 import 'package:coffe_brain/ui/util/convert_data.dart';
@@ -45,13 +47,18 @@ class Diagnosisscreen extends StatelessWidget {
               }
 
               if (state is NaiveBayesProcesLoaded) {
+                context.read<HistoryCubit>().saveHistory(HistoryModel(
+                      penyakit: state.prediction,
+                      gejala: gejala,
+                    ));
                 Navigator.pushNamed(context, '/diagnosis-value');
               }
             },
             builder: (context, state) {
               return GestureDetector(
-                onTap: () =>
-                    naiveCubit.onPredict(convertData(selectEvent.state)),
+                onTap: () => naiveCubit.onPredict(
+                  convertData(selectEvent.state),
+                ),
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 22.w),
                   child: SvgPicture.asset(
@@ -62,7 +69,7 @@ class Diagnosisscreen extends StatelessWidget {
                 ),
               );
             },
-          )
+          ),
         ],
       ),
       body: Padding(

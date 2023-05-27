@@ -1,8 +1,25 @@
 import 'package:bloc/bloc.dart';
+import 'package:coffe_brain/models/history_model.dart';
+import 'package:coffe_brain/services/history_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'history_state.dart';
 
 class HistoryCubit extends Cubit<HistoryState> {
-  HistoryCubit() : super(HistoryInitial());
+  HistoryService historyService;
+
+  HistoryCubit({required this.historyService}) : super(HistoryInitial());
+
+  void saveHistory(HistoryModel newHistory) {
+    historyService.saveHistory(newHistory);
+  }
+
+  Future<void> getAllHistory() async {
+    final result = await historyService.getHistory();
+    emit(HistoryLoaded(result));
+  }
+
+  void deleteHistory() {
+    historyService.deleteHistory();
+  }
 }

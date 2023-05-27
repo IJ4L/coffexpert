@@ -119,8 +119,11 @@ class Diagnosisvalue extends StatelessWidget {
                                         ),
                                         state == true
                                             ? const Icon(
-                                                Icons.arrow_drop_up_outlined)
-                                            : const Icon(Icons.arrow_drop_down)
+                                                Icons.arrow_drop_up_outlined,
+                                              )
+                                            : const Icon(
+                                                Icons.arrow_drop_down,
+                                              )
                                       ],
                                     ),
                                   ),

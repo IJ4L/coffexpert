@@ -1,5 +1,7 @@
+import 'package:coffe_brain/cubit/history/history_cubit.dart';
 import 'package:coffe_brain/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Menuscreen extends StatelessWidget {
@@ -141,7 +143,7 @@ class Menuscreen extends StatelessWidget {
                       children: [
                         GestureDetector(
                           child: Container(
-                            height: 160.h,
+                            height: 110.h,
                             width: 140.w,
                             padding: EdgeInsets.all(16.r),
                             decoration: BoxDecoration(
@@ -164,8 +166,42 @@ class Menuscreen extends StatelessWidget {
                             ),
                           ),
                         ),
+                        GestureDetector(
+                          onTap: () {
+                            context.read<HistoryCubit>().getAllHistory();
+                            Navigator.pushNamed(context, '/history');
+                          },
+                          child: Container(
+                            height: 60.h,
+                            width: 140.w,
+                            decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'History',
+                                style: cocolateTextStyle,
+                              ),
+                            ),
+                          ),
+                        ),
                         Container(
-                          height: 160.h,
+                          height: 60.h,
+                          width: 140.w,
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Tentang',
+                              style: cocolateTextStyle,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 80.h,
                           width: 140.w,
                           padding: EdgeInsets.all(25.r),
                           decoration: BoxDecoration(
@@ -186,7 +222,7 @@ class Menuscreen extends StatelessWidget {
                               child: Icon(
                                 Icons.logout_outlined,
                                 color: kSecondColor,
-                                size: 30.r,
+                                size: 20.r,
                               ),
                             ),
                           ),
