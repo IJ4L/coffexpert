@@ -142,6 +142,9 @@ class Menuscreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/info-hama');
+                          },
                           child: Container(
                             height: 110.h,
                             width: 140.w,
@@ -149,9 +152,8 @@ class Menuscreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12.r),
                               image: const DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/img_button2.png',
-                                ),
+                                image:
+                                    AssetImage('assets/images/img_button2.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -186,17 +188,20 @@ class Menuscreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 60.h,
-                          width: 140.w,
-                          decoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Tentang',
-                              style: cocolateTextStyle,
+                        GestureDetector(
+                          onTap: () => Navigator.pushNamed(context, '/about'),
+                          child: Container(
+                            height: 60.h,
+                            width: 140.w,
+                            decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Tentang',
+                                style: cocolateTextStyle,
+                              ),
                             ),
                           ),
                         ),

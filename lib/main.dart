@@ -1,6 +1,8 @@
 import 'package:coffe_brain/services/history_service.dart';
+import 'package:coffe_brain/ui/pages/about_page.dart';
 import 'package:coffe_brain/ui/pages/diagnosis_page.dart';
 import 'package:coffe_brain/ui/pages/history_page.dart';
+import 'package:coffe_brain/ui/pages/info_hama_page.dart';
 import 'package:coffe_brain/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,6 +53,8 @@ class MyApp extends StatelessWidget {
             '/diagnosis': (context) => const Diagnosisscreen(),
             '/diagnosis-value': (context) => const DiagnosisValue(),
             '/history': (context) => const HistoryLoadedPage(),
+            '/info-hama': (context) => const InfoHamaPage(),
+            '/about': (context) => const AboutPage(),
           },
         ),
       ),
