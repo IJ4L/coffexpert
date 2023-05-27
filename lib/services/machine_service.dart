@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 
 class NaiveBayes {
   Map<String, Map<String, int>> evidence = {};
@@ -54,7 +55,6 @@ class NaiveBayes {
         featureProbability *=
             (featureCount + 1) / (classCount + vocabularySize);
 
-        // Apply feature weighting if available
         if (featureWeights.containsKey(className) &&
             featureWeights[className]!.containsKey(feature)) {
           final featureWeight = featureWeights[className]![feature]!;
@@ -66,8 +66,8 @@ class NaiveBayes {
     }
 
     final totalProbability = probabilities.values.reduce((a, b) => a + b);
-    probabilities.updateAll((className, probability) =>
-        double.parse((probability / totalProbability).toStringAsFixed(2)));
+    probabilities
+        .updateAll((className, probability) => probability / totalProbability);
 
     return probabilities;
   }
@@ -219,7 +219,9 @@ Future<Either<String, String>> procesNaiveBayes(List<String> gejala) async {
     final predictedClass = classifier.getPredictedClass(prediction);
 
     if (predictedClass != null) {
-      print(prediction);
+      if (kDebugMode) {
+        print(prediction);
+      }
       return Right(predictedClass);
     } else {
       return const Left('Tidak dapat memprediksi kelas.');
