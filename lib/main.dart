@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
             '/': (context) => const Splashscreen(),
             '/menu-utama': (context) => const Menuscreen(),
             '/diagnosis': (context) => const Diagnosisscreen(),
-            '/diagnosis-value': (context) => const Diagnosisvalue(),
+            '/diagnosis-value': (context) => const DiagnosisValue(),
             '/history': (context) => const HistoryLoadedPage(),
           },
         ),

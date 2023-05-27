@@ -44,7 +44,6 @@ class Diagnosisscreen extends StatelessWidget {
                   ),
                 );
               }
-
               if (state is NaiveBayesProcesLoaded) {
                 context.read<HistoryCubit>().saveHistory(HistoryModel(
                       penyakit: state.prediction,
