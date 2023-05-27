@@ -18,7 +18,6 @@ class Diagnosisscreen extends StatelessWidget {
     final naiveCubit = context.read<NaiveBayesProcesCubit>();
     final selectEvent = context.read<SelectGejalaCubit>();
     return Scaffold(
-      backgroundColor: const Color(0xfff8f8f8),
       appBar: AppBar(
         backgroundColor: kWhiteColor,
         elevation: 0,
@@ -49,7 +48,8 @@ class Diagnosisscreen extends StatelessWidget {
               if (state is NaiveBayesProcesLoaded) {
                 context.read<HistoryCubit>().saveHistory(HistoryModel(
                       penyakit: state.prediction,
-                      gejala: gejala,
+                      gejala: state.gejala,
+                      at: DateTime.now().toIso8601String(),
                     ));
                 Navigator.pushNamed(context, '/diagnosis-value');
               }

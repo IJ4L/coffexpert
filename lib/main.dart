@@ -17,10 +17,6 @@ import 'ui/pages/menu_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-  // HistoryService historyService = HistoryService(sharedPreferences);
-  // final result = await historyService.getHistory();
-  // print(result);
   runApp(MyApp(sharedPreferences: sharedPreferences));
 }
 

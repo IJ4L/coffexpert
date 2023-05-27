@@ -21,7 +21,8 @@ class HistoryService {
       final decodedHistory = json.decode(result);
       if (decodedHistory is List) {
         return List<HistoryModel>.from(
-            decodedHistory.map((item) => HistoryModel.fromJson(item)));
+          decodedHistory.map((item) => HistoryModel.fromJson(item)),
+        );
       }
     }
     return [];
