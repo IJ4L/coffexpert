@@ -24,7 +24,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final SharedPreferences sharedPreferences;
-
   const MyApp({super.key, required this.sharedPreferences});
 
   @override

@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 
 class NaiveBayes {
   Map<String, Map<String, int>> evidence = {};
@@ -17,6 +18,8 @@ class NaiveBayes {
     classCounts[className] = (classCounts[className] ?? 0) + 1;
 
     vocabularySize += features.length;
+
+    // Logger().i(evidence);
   }
 
   void calculateFeatureWeights() {
@@ -35,6 +38,7 @@ class NaiveBayes {
               featureWeights[className]![feature]! + featureCount.toDouble();
         }
       }
+      // Logger().i(featureWeights[className]);
     }
   }
 
@@ -61,14 +65,17 @@ class NaiveBayes {
           featureProbability *= featureWeight;
         }
       }
-
+      // Logger().d(classProbability);
       probabilities[className] = classProbability * featureProbability * 100;
+      Logger().d(probabilities[className]);
     }
 
     final totalProbability = probabilities.values.reduce((a, b) => a + b);
     probabilities
         .updateAll((className, probability) => probability / totalProbability);
 
+    // Logger().d(probabilities);
+    // Logger().i(probabilities);
     return probabilities;
   }
 
@@ -90,115 +97,122 @@ class NaiveBayes {
 Future<Either<String, String>> procesNaiveBayes(List<String> gejala) async {
   final classifier = NaiveBayes();
 
-  classifier.addEvidence(['G2', 'G3', 'G9'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G3', 'G2', 'G9'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G3', 'G9', 'G2'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G9', 'G3', 'G2'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G9', 'G2', 'G3'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G2', 'G9', 'G3'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G2', 'G3', 'G9'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G2', 'G9', 'G3'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G3', 'G2', 'G9'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G3', 'G9', 'G2'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G9', 'G3', 'G2'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G9', 'G2', 'G3'], 'Penggerek Buah Kopi');
+  classifier.addEvidence(['G1', 'G2', 'G3'], 'Penggerek Buah Kopi');
+  classifier.addEvidence(['G1', 'G3', 'G2'], 'Penggerek Buah Kopi');
+  classifier.addEvidence(['G2', 'G1', 'G3'], 'Penggerek Buah Kopi');
+  classifier.addEvidence(['G2', 'G3', 'G1'], 'Penggerek Buah Kopi');
+  classifier.addEvidence(['G3', 'G1', 'G2'], 'Penggerek Buah Kopi');
+  classifier.addEvidence(['G3', 'G2', 'G1'], 'Penggerek Buah Kopi');
 
-  //Gejala ke-2
-  classifier.addEvidence(['G17', 'G18', 'G23', 'G24'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G18', 'G17', 'G23', 'G24'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G18', 'G23', 'G17', 'G24'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G18', 'G23', 'G24', 'G17'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G18', 'G24', 'G23', 'G17'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G24', 'G18', 'G23', 'G17'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G24', 'G23', 'G18', 'G17'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G24', 'G23', 'G17', 'G18'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G17', 'G23', 'G18', 'G24'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G17', 'G23', 'G24', 'G18'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G17', 'G24', 'G18', 'G23'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G17', 'G24', 'G23', 'G18'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G23', 'G17', 'G18', 'G24'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G23', 'G17', 'G24', 'G18'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G23', 'G18', 'G17', 'G24'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G23', 'G18', 'G24', 'G17'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G23', 'G24', 'G17', 'G18'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G23', 'G24', 'G18', 'G17'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G24', 'G17', 'G18', 'G23'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G24', 'G17', 'G23', 'G18'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G24', 'G18', 'G17', 'G23'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G24', 'G18', 'G23', 'G17'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G24', 'G23', 'G17', 'G18'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G24', 'G23', 'G18', 'G17'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G4', 'G5', 'G6', 'G7'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G4', 'G5', 'G7', 'G6'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G4', 'G6', 'G5', 'G7'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G4', 'G6', 'G7', 'G5'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G4', 'G7', 'G5', 'G6'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G4', 'G7', 'G6', 'G5'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G5', 'G4', 'G6', 'G7'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G5', 'G4', 'G7', 'G6'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G5', 'G6', 'G4', 'G7'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G5', 'G6', 'G7', 'G4'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G5', 'G7', 'G4', 'G6'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G5', 'G7', 'G6', 'G4'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G6', 'G4', 'G5', 'G7'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G6', 'G4', 'G7', 'G5'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G6', 'G5', 'G4', 'G7'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G6', 'G5', 'G7', 'G4'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G6', 'G7', 'G4', 'G5'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G6', 'G7', 'G5', 'G4'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G7', 'G4', 'G5', 'G6'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G7', 'G4', 'G6', 'G5'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G7', 'G5', 'G4', 'G6'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G7', 'G5', 'G6', 'G4'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G7', 'G6', 'G4', 'G5'], 'Penggerek Cabang Kopi');
+  classifier.addEvidence(['G7', 'G6', 'G5', 'G4'], 'Penggerek Cabang Kopi');
 
-  //Gejala ke-3
-  classifier.addEvidence(['G16', 'G28', 'G30'], 'Penggerek Batang');
-  classifier.addEvidence(['G28', 'G16', 'G30'], 'Penggerek Batang');
-  classifier.addEvidence(['G28', 'G30', 'G16'], 'Penggerek Batang');
-  classifier.addEvidence(['G30', 'G28', 'G16'], 'Penggerek Batang');
-  classifier.addEvidence(['G16', 'G30', 'G28'], 'Penggerek Batang');
-  classifier.addEvidence(['G30', 'G16', 'G28'], 'Penggerek Batang');
-  classifier.addEvidence(['G30', 'G28', 'G16'], 'Penggerek Batang');
-  classifier.addEvidence(['G28', 'G30', 'G16'], 'Penggerek Batang');
+  classifier.addEvidence(['G8', 'G9', 'G10'], 'Penggerek Batang');
+  classifier.addEvidence(['G8', 'G10', 'G9'], 'Penggerek Batang');
+  classifier.addEvidence(['G9', 'G8', 'G10'], 'Penggerek Batang');
+  classifier.addEvidence(['G9', 'G10', 'G8'], 'Penggerek Batang');
+  classifier.addEvidence(['G10', 'G8', 'G9'], 'Penggerek Batang');
+  classifier.addEvidence(['G10', 'G9', 'G8'], 'Penggerek Batang');
 
-  //Gejala ke-4
-  classifier.addEvidence(['G19', 'G20'], 'Kutu Hijau');
-  classifier.addEvidence(['G20', 'G19'], 'Kutu Hijau');
-  classifier.addEvidence(['G19'], 'Kutu Hijau');
-  classifier.addEvidence(['G20'], 'Kutu Hijau');
+  classifier.addEvidence(['G11', 'G12'], 'Kutu Hijau');
+  classifier.addEvidence(['G12', 'G11'], 'Kutu Hijau');
+  classifier.addEvidence(['G11'], 'Kutu Hijau');
+  classifier.addEvidence(['G12'], 'Kutu Hijau');
 
-  //Gejala ke-5
-  classifier.addEvidence(['G21', 'G22'], 'Kutu Putih');
-  classifier.addEvidence(['G22', 'G21'], 'Kutu Putih');
-  classifier.addEvidence(['G22'], 'Kutu Putih');
-  classifier.addEvidence(['G21'], 'Kutu Putih');
+  classifier.addEvidence(['G13', 'G14'], 'Kutu Putih');
+  classifier.addEvidence(['G14', 'G13'], 'Kutu Putih');
+  classifier.addEvidence(['G13'], 'Kutu Putih');
+  classifier.addEvidence(['G14'], 'Kutu Putih');
 
-  //Gejala ke-6
-  classifier.addEvidence(['G11', 'G13', 'G1'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G13', 'G11', 'G1'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G13', 'G1', 'G11'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G1', 'G13', 'G11'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G11', 'G1', 'G13'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G1', 'G11', 'G13'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G1', 'G13', 'G11'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G13', 'G1', 'G11'], 'Karat Daun Kopi');
+  classifier.addEvidence(['G15', 'G16', 'G17'], 'Karat Daun Kopi');
+  classifier.addEvidence(['G15', 'G17', 'G16'], 'Karat Daun Kopi');
+  classifier.addEvidence(['G16', 'G15', 'G17'], 'Karat Daun Kopi');
+  classifier.addEvidence(['G16', 'G17', 'G15'], 'Karat Daun Kopi');
+  classifier.addEvidence(['G17', 'G15', 'G16'], 'Karat Daun Kopi');
+  classifier.addEvidence(['G17', 'G16', 'G15'], 'Karat Daun Kopi');
 
-  //Gejala ke-7
-  classifier.addEvidence(['G10', 'G12', 'G14', 'G15'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G12', 'G10', 'G14', 'G15'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G12', 'G14', 'G10', 'G15'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G12', 'G14', 'G15', 'G10'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G14', 'G12', 'G10', 'G15'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G14', 'G12', 'G15', 'G10'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G14', 'G15', 'G12', 'G10'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G15', 'G14', 'G12', 'G10'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G15', 'G14', 'G10', 'G12'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G15', 'G10', 'G14', 'G12'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G18', 'G19', 'G20', 'G21'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G18', 'G19', 'G21', 'G20'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G18', 'G20', 'G19', 'G21'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G18', 'G20', 'G21', 'G19'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G18', 'G21', 'G19', 'G20'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G18', 'G21', 'G20', 'G19'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G19', 'G18', 'G20', 'G21'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G19', 'G18', 'G21', 'G20'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G19', 'G20', 'G18', 'G21'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G19', 'G20', 'G21', 'G18'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G19', 'G21', 'G18', 'G20'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G19', 'G21', 'G20', 'G18'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G20', 'G18', 'G19', 'G21'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G20', 'G18', 'G21', 'G19'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G20', 'G19', 'G18', 'G21'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G20', 'G19', 'G21', 'G18'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G20', 'G21', 'G18', 'G19'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G20', 'G21', 'G19', 'G18'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G21', 'G18', 'G19', 'G20'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G21', 'G18', 'G20', 'G19'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G21', 'G19', 'G18', 'G20'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G21', 'G19', 'G20', 'G18'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G21', 'G20', 'G18', 'G19'], 'Bercak Daun Kopi');
+  classifier.addEvidence(['G21', 'G20', 'G19', 'G18'], 'Bercak Daun Kopi');
 
-  //Gejala ke-8
-  classifier.addEvidence(['G4', 'G5', 'G6', 'G7'], 'Nemotoda');
-  classifier.addEvidence(['G5', 'G4', 'G6', 'G7'], 'Nemotoda');
-  classifier.addEvidence(['G5', 'G6', 'G4', 'G7'], 'Nemotoda');
-  classifier.addEvidence(['G5', 'G6', 'G7', 'G4'], 'Nemotoda');
-  classifier.addEvidence(['G6', 'G5', 'G4', 'G7'], 'Nemotoda');
-  classifier.addEvidence(['G6', 'G5', 'G7', 'G4'], 'Nemotoda');
-  classifier.addEvidence(['G6', 'G7', 'G5', 'G4'], 'Nemotoda');
-  classifier.addEvidence(['G7', 'G6', 'G5', 'G4'], 'Nemotoda');
-  classifier.addEvidence(['G7', 'G6', 'G4', 'G5'], 'Nemotoda');
-  classifier.addEvidence(['G7', 'G4', 'G6', 'G5'], 'Nemotoda');
+  classifier.addEvidence(['G22', 'G23', 'G24', 'G25'], 'Nemotoda');
+  classifier.addEvidence(['G22', 'G23', 'G25', 'G24'], 'Nemotoda');
+  classifier.addEvidence(['G22', 'G24', 'G23', 'G25'], 'Nemotoda');
+  classifier.addEvidence(['G22', 'G24', 'G25', 'G23'], 'Nemotoda');
+  classifier.addEvidence(['G22', 'G25', 'G23', 'G24'], 'Nemotoda');
+  classifier.addEvidence(['G22', 'G25', 'G24', 'G23'], 'Nemotoda');
+  classifier.addEvidence(['G23', 'G22', 'G24', 'G25'], 'Nemotoda');
+  classifier.addEvidence(['G23', 'G22', 'G25', 'G24'], 'Nemotoda');
+  classifier.addEvidence(['G23', 'G24', 'G22', 'G25'], 'Nemotoda');
+  classifier.addEvidence(['G23', 'G24', 'G25', 'G22'], 'Nemotoda');
+  classifier.addEvidence(['G23', 'G25', 'G22', 'G24'], 'Nemotoda');
+  classifier.addEvidence(['G23', 'G25', 'G24', 'G22'], 'Nemotoda');
+  classifier.addEvidence(['G24', 'G22', 'G23', 'G25'], 'Nemotoda');
+  classifier.addEvidence(['G24', 'G22', 'G25', 'G23'], 'Nemotoda');
+  classifier.addEvidence(['G24', 'G23', 'G22', 'G25'], 'Nemotoda');
+  classifier.addEvidence(['G24', 'G23', 'G25', 'G22'], 'Nemotoda');
+  classifier.addEvidence(['G24', 'G25', 'G22', 'G23'], 'Nemotoda');
+  classifier.addEvidence(['G24', 'G25', 'G23', 'G22'], 'Nemotoda');
+  classifier.addEvidence(['G25', 'G22', 'G23', 'G24'], 'Nemotoda');
+  classifier.addEvidence(['G25', 'G22', 'G24', 'G23'], 'Nemotoda');
+  classifier.addEvidence(['G25', 'G23', 'G22', 'G24'], 'Nemotoda');
+  classifier.addEvidence(['G25', 'G23', 'G24', 'G22'], 'Nemotoda');
+  classifier.addEvidence(['G25', 'G24', 'G22', 'G23'], 'Nemotoda');
+  classifier.addEvidence(['G25', 'G24', 'G23', 'G22'], 'Nemotoda');
 
-  //Gejala ke-9
-  classifier.addEvidence(['G8', 'G25', 'G26'], 'Jamur Upas');
-  classifier.addEvidence(['G25', 'G8', 'G26'], 'Jamur Upas');
-  classifier.addEvidence(['G25', 'G26', 'G8'], 'Jamur Upas');
-  classifier.addEvidence(['G26', 'G8', 'G25'], 'Jamur Upas');
-  classifier.addEvidence(['G8', 'G26', 'G25'], 'Jamur Upas');
-  classifier.addEvidence(['G26', 'G25', 'G8'], 'Jamur Upas');
-  classifier.addEvidence(['G26', 'G8', 'G25'], 'Jamur Upas');
-  classifier.addEvidence(['G25', 'G26', 'G8'], 'Jamur Upas');
+  classifier.addEvidence(['G26', 'G27', 'G28'], 'Jamur Upas');
+  classifier.addEvidence(['G26', 'G28', 'G27'], 'Jamur Upas');
+  classifier.addEvidence(['G27', 'G26', 'G28'], 'Jamur Upas');
+  classifier.addEvidence(['G27', 'G28', 'G26'], 'Jamur Upas');
+  classifier.addEvidence(['G28', 'G26', 'G27'], 'Jamur Upas');
+  classifier.addEvidence(['G28', 'G27', 'G26'], 'Jamur Upas');
 
-  //Gejala ke-10
-  classifier.addEvidence(['G27', 'G29'], 'Penyakit Akar');
-  classifier.addEvidence(['G29', 'G27'], 'Penyakit Akar');
-  classifier.addEvidence(['G27'], 'Penyakit Akar');
+  classifier.addEvidence(['G29', 'G30'], 'Penyakit Akar');
+  classifier.addEvidence(['G30', 'G29'], 'Penyakit Akar');
+  classifier.addEvidence(['G30'], 'Penyakit Akar');
   classifier.addEvidence(['G29'], 'Penyakit Akar');
 
   classifier.calculateFeatureWeights();
@@ -207,11 +221,13 @@ Future<Either<String, String>> procesNaiveBayes(List<String> gejala) async {
 
   bool areFeaturesValid = true;
   for (final feature in featuresToPredict) {
-    if (!classifier.featureWeights.values
-        .any((weights) => weights.containsKey(feature))) {
+    if (!classifier.featureWeights.values.any((weights) {
+      return weights.containsKey(feature);
+    })) {
       areFeaturesValid = false;
       break;
     }
+    // Logger().i(areFeaturesValid);
   }
 
   if (areFeaturesValid && gejala.isNotEmpty) {
