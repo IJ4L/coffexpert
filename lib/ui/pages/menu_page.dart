@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:coffe_brain/cubit/history/history_cubit.dart';
 import 'package:coffe_brain/shared/theme.dart';
 import 'package:flutter/material.dart';
@@ -205,29 +207,34 @@ class Menuscreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          height: 80.h,
-                          width: 140.w,
-                          padding: EdgeInsets.all(25.r),
-                          decoration: BoxDecoration(
-                            image: const DecorationImage(
-                              image: AssetImage(
-                                'assets/images/img_button3.png',
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
+                        GestureDetector(
+                          onTap: () {
+                            exit(0);
+                          },
                           child: Container(
+                            height: 80.h,
+                            width: 140.w,
+                            padding: EdgeInsets.all(25.r),
                             decoration: BoxDecoration(
-                              color: kPrimaryColor,
+                              image: const DecorationImage(
+                                image: AssetImage(
+                                  'assets/images/img_button3.png',
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                               borderRadius: BorderRadius.circular(12.r),
                             ),
-                            child: Center(
-                              child: Icon(
-                                Icons.logout_outlined,
-                                color: kSecondColor,
-                                size: 20.r,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: kPrimaryColor,
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.logout_outlined,
+                                  color: kSecondColor,
+                                  size: 20.r,
+                                ),
                               ),
                             ),
                           ),

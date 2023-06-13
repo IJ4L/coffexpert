@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:coffe_brain/services/machine_service.dart';
 import 'package:equatable/equatable.dart';
 
+import '../../models/prediction_model.dart';
+
 part 'naive_bayes_proces_state.dart';
 
 class NaiveBayesProcesCubit extends Cubit<NaiveBayesProcesState> {
@@ -13,7 +15,7 @@ class NaiveBayesProcesCubit extends Cubit<NaiveBayesProcesState> {
     final result = await procesNaiveBayes(selectedGejala);
     result.fold(
       (message) => emit(NaiveBayesProcesFailure(message)),
-      (value) => emit(NaiveBayesProcesLoaded(value, selectedGejala)),
+      (value) => emit(NaiveBayesProcesLoaded(value, value.gejala)),
     );
   }
 }

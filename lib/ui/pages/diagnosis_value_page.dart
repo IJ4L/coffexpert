@@ -62,7 +62,8 @@ class DiagnosisValue extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 10.h,
+              top: 70.h,
+              left: (MediaQuery.of(context).size.width / 18).w,
               child: BlocBuilder<NaiveBayesProcesCubit, NaiveBayesProcesState>(
                 builder: (context, state) {
                   if (state is NaiveBayesProcesLoading) {
@@ -72,25 +73,39 @@ class DiagnosisValue extends StatelessWidget {
                     return Column(
                       children: [
                         Container(
-                          height: 180.h,
-                          width: MediaQuery.of(context).size.width - 32.w,
-                          margin: EdgeInsets.only(
-                            right: 16.w,
-                            left: 16.w,
-                            bottom: 25.h,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 30.w,
+                            vertical: 16.h,
                           ),
                           decoration: BoxDecoration(
-                            color: kSecondColor,
+                            color: kWhiteColor,
                             borderRadius: BorderRadius.circular(20.r),
+                            border: Border.all(color: kPrimaryColor),
+                          ),
+                          child: Text(
+                            state.prediction.penyakit,
+                            style: blackTextStyle.copyWith(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        Text(
-                          state.prediction,
-                          style: blackTextStyle.copyWith(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w600,
+                        Container(
+                          height: 25.h,
+                          width: 80.w,
+                          decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(10.r),
+                            ),
                           ),
-                          textAlign: TextAlign.center,
+                          child: Center(
+                            child: Text(
+                              '${state.prediction.akurasi}%',
+                              style: blackTextStyle.copyWith(),
+                            ),
+                          ),
                         ),
                         Column(
                           children: [
@@ -98,8 +113,11 @@ class DiagnosisValue extends StatelessWidget {
                               child: Container(
                                 height: 39.h,
                                 width: 310.w,
-                                margin: EdgeInsets.symmetric(vertical: 25.h),
-                                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                margin: EdgeInsets.symmetric(vertical: 30.h),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20.w,
+                                  vertical: 10.h,
+                                ),
                                 decoration: BoxDecoration(
                                   color: kPrimaryColor,
                                   borderRadius: BorderRadius.circular(50.r),
@@ -120,22 +138,31 @@ class DiagnosisValue extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              height: 400,
+                              height: 380.h,
                               width: 310.w,
                               padding: EdgeInsets.all(16.r),
                               decoration: BoxDecoration(
                                 color: kPrimaryColor,
                                 borderRadius: BorderRadius.circular(20.r),
                               ),
-                              child: ListView(
-                                children: [
-                                  Text(
-                                    solusi[state.prediction]!,
-                                    style: blackTextStyle.copyWith(
-                                      fontSize: 12.sp,
+                              child: NotificationListener(
+                                onNotification: (notification) {
+                                  if (notification
+                                      is OverscrollIndicatorNotification) {
+                                    notification.disallowIndicator();
+                                  }
+                                  return false;
+                                },
+                                child: ListView(
+                                  children: [
+                                    Text(
+                                      solusi[state.prediction.penyakit]!,
+                                      style: blackTextStyle.copyWith(
+                                        fontSize: 12.sp,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],

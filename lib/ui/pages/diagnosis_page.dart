@@ -46,8 +46,8 @@ class Diagnosisscreen extends StatelessWidget {
               }
               if (state is NaiveBayesProcesLoaded) {
                 context.read<HistoryCubit>().saveHistory(HistoryModel(
-                      penyakit: state.prediction,
-                      gejala: state.gejala,
+                      penyakit: state.prediction.penyakit,
+                      gejala: state.prediction.gejala,
                       at: DateTime.now().toIso8601String(),
                     ));
                 Navigator.pushNamed(context, '/diagnosis-value');
@@ -97,52 +97,61 @@ class Diagnosisscreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return BlocBuilder<SelectGejalaCubit, List<int>>(
-                    builder: (context, state) {
-                      final isSelected = state.contains(index);
-                      return GestureDetector(
-                        onTap: () => isSelected != true
-                            ? selectEvent.select(index)
-                            : selectEvent.unselect(index),
-                        child: Container(
-                          padding: EdgeInsets.all(14.r),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.r),
-                            boxShadow: [
-                              BoxShadow(
-                                color: isSelected ? kGreenColor : kPrimaryColor,
-                                offset: const Offset(0, 2),
-                                blurStyle: BlurStyle.outer,
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Text('${index + 1}.', style: blackTextStyle),
-                              SizedBox(width: 12.w),
-                              Expanded(
-                                child: Text(
-                                  gejala[index],
-                                  style: blackTextStyle,
-                                ),
-                              ),
-                              isSelected != false
-                                  ? SvgPicture.asset(
-                                      'assets/icons/ico_succses.svg',
-                                    )
-                                  : Container()
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
+              child: NotificationListener(
+                onNotification: (notification) {
+                  if (notification is OverscrollIndicatorNotification) {
+                    notification.disallowIndicator();
+                  }
+                  return false;
                 },
-                separatorBuilder: (_, index) => SizedBox(height: 16.h),
-                itemCount: 30,
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return BlocBuilder<SelectGejalaCubit, List<int>>(
+                      builder: (context, state) {
+                        final isSelected = state.contains(index);
+                        return GestureDetector(
+                          onTap: () => isSelected != true
+                              ? selectEvent.select(index)
+                              : selectEvent.unselect(index),
+                          child: Container(
+                            padding: EdgeInsets.all(14.r),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.r),
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      isSelected ? kGreenColor : kPrimaryColor,
+                                  offset: const Offset(0, 2),
+                                  blurStyle: BlurStyle.outer,
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Text('${index + 1}.', style: blackTextStyle),
+                                SizedBox(width: 12.w),
+                                Expanded(
+                                  child: Text(
+                                    gejala[index],
+                                    style: blackTextStyle,
+                                  ),
+                                ),
+                                isSelected != false
+                                    ? SvgPicture.asset(
+                                        'assets/icons/ico_succses.svg',
+                                      )
+                                    : Container()
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  separatorBuilder: (_, index) => SizedBox(height: 16.h),
+                  itemCount: 30,
+                ),
               ),
             ),
           ],

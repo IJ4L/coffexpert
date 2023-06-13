@@ -1,5 +1,5 @@
+import 'package:coffe_brain/models/prediction_model.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
 class NaiveBayes {
@@ -18,8 +18,17 @@ class NaiveBayes {
     classCounts[className] = (classCounts[className] ?? 0) + 1;
 
     vocabularySize += features.length;
+  }
 
-    // Logger().i(evidence);
+  void printData() {
+    Logger().wtf("Jumlah Class");
+    Logger().i(classCounts);
+    Logger().wtf("Bukti");
+    Logger().i(evidence);
+    Logger().wtf("Ukursan Kosa Kata");
+    Logger().i(vocabularySize);
+    Logger().wtf("Bobot Fitur");
+    Logger().i(featureWeights);
   }
 
   void calculateFeatureWeights() {
@@ -38,7 +47,6 @@ class NaiveBayes {
               featureWeights[className]![feature]! + featureCount.toDouble();
         }
       }
-      // Logger().i(featureWeights[className]);
     }
   }
 
@@ -65,17 +73,18 @@ class NaiveBayes {
           featureProbability *= featureWeight;
         }
       }
-      // Logger().d(classProbability);
-      probabilities[className] = classProbability * featureProbability * 100;
-      Logger().d(probabilities[className]);
+
+      probabilities[className] =
+          (classProbability * featureProbability * 100).toDouble();
     }
 
     final totalProbability = probabilities.values.reduce((a, b) => a + b);
-    probabilities
-        .updateAll((className, probability) => probability / totalProbability);
+    probabilities.updateAll((className, probability) {
+      return probability / totalProbability;
+    });
 
-    // Logger().d(probabilities);
-    // Logger().i(probabilities);
+    Logger().w(probabilities);
+
     return probabilities;
   }
 
@@ -94,7 +103,8 @@ class NaiveBayes {
   }
 }
 
-Future<Either<String, String>> procesNaiveBayes(List<String> gejala) async {
+Future<Either<String, PredictionModel>> procesNaiveBayes(
+    List<String> gejala) async {
   final classifier = NaiveBayes();
 
   classifier.addEvidence(['G1', 'G2', 'G3'], 'Penggerek Buah Kopi');
@@ -212,12 +222,14 @@ Future<Either<String, String>> procesNaiveBayes(List<String> gejala) async {
 
   classifier.addEvidence(['G29', 'G30'], 'Penyakit Akar');
   classifier.addEvidence(['G30', 'G29'], 'Penyakit Akar');
-  classifier.addEvidence(['G30'], 'Penyakit Akar');
   classifier.addEvidence(['G29'], 'Penyakit Akar');
+  classifier.addEvidence(['G30'], 'Penyakit Akar');
 
   classifier.calculateFeatureWeights();
 
   final featuresToPredict = gejala;
+
+  classifier.printData();
 
   bool areFeaturesValid = true;
   for (final feature in featuresToPredict) {
@@ -227,18 +239,29 @@ Future<Either<String, String>> procesNaiveBayes(List<String> gejala) async {
       areFeaturesValid = false;
       break;
     }
-    // Logger().i(areFeaturesValid);
   }
 
   if (areFeaturesValid && gejala.isNotEmpty) {
     final prediction = classifier.predict(featuresToPredict);
     final predictedClass = classifier.getPredictedClass(prediction);
 
-    if (predictedClass != null) {
-      if (kDebugMode) {
-        print(prediction);
+    double highestProbability = 0;
+
+    for (final className in prediction.keys) {
+      final probability = prediction[className]!;
+
+      if (probability > highestProbability) {
+        highestProbability = probability;
       }
-      return Right(predictedClass);
+    }
+
+    if (predictedClass != null) {
+      PredictionModel data = PredictionModel(
+        penyakit: predictedClass,
+        akurasi: (highestProbability * 100).toStringAsFixed(2),
+        gejala: gejala,
+      );
+      return Right(data);
     } else {
       return const Left('Tidak dapat memprediksi kelas.');
     }

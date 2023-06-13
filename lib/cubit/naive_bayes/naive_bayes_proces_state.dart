@@ -12,7 +12,7 @@ class NaiveBayesProcesInitial extends NaiveBayesProcesState {}
 class NaiveBayesProcesLoading extends NaiveBayesProcesState {}
 
 class NaiveBayesProcesLoaded extends NaiveBayesProcesState {
-  final String prediction;
+  final PredictionModel prediction;
   final List<String> gejala;
   const NaiveBayesProcesLoaded(this.prediction, this.gejala);
 

@@ -5,6 +5,7 @@ import 'package:coffe_brain/ui/pages/history_page.dart';
 import 'package:coffe_brain/ui/pages/info_hama_page.dart';
 import 'package:coffe_brain/ui/pages/splash_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +20,7 @@ import 'ui/pages/menu_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MyApp(sharedPreferences: sharedPreferences));
 }
 
