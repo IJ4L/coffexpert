@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../shared/theme.dart';
 
@@ -32,11 +33,41 @@ class HistoryLoadedPage extends StatelessWidget {
           style: cocolateTextStyle,
         ),
         centerTitle: true,
+        actions: [
+          GestureDetector(
+            onTap: () => context.read<HistoryCubit>().deleteHistory(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 22.w),
+              child: const Icon(
+                Icons.delete_outlined,
+                color: kSecondColor,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 12.h),
         child: BlocBuilder<HistoryCubit, HistoryState>(
           builder: (context, state) {
+            if (state is HistoryLoading) {
+              return Container(
+                height: 60.h,
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(horizontal: 22.w),
+                child: Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                  ),
+                ),
+              );
+            }
             if (state is HistoryLoaded) {
               return ListView.separated(
                 itemBuilder: (context, index) {

@@ -19,7 +19,11 @@ class HistoryCubit extends Cubit<HistoryState> {
     emit(HistoryLoaded(result));
   }
 
-  void deleteHistory() {
+  Future<void> deleteHistory() async {
+    emit(HistoryLoading());
     historyService.deleteHistory();
+    Future.delayed(const Duration(seconds: 2), () {
+      getAllHistory();
+    });
   }
 }

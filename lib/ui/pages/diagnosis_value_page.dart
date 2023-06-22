@@ -96,8 +96,8 @@ class DiagnosisValue extends StatelessWidget {
                                     state.prediction.penyakit[index]
                                                 ['penyakit'] >
                                             5
-                                        ? "Hama"
-                                        : "Penyakit",
+                                        ? "Penyakit"
+                                        : "Hama",
                                     style: blackTextStyle.copyWith(
                                       fontSize: 12.sp,
                                       color: kWhiteColor,
