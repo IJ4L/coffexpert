@@ -51,131 +51,157 @@ class DiagnosisValue extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: Stack(
           children: [
-            Container(
-              height: 100.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: kPrimaryColor,
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(20.r),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 70.h,
-              left: (MediaQuery.of(context).size.width / 18).w,
-              child: BlocBuilder<NaiveBayesProcesCubit, NaiveBayesProcesState>(
-                builder: (context, state) {
-                  if (state is NaiveBayesProcesLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (state is NaiveBayesProcesLoaded) {
-                    return Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 30.w,
-                            vertical: 16.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: kWhiteColor,
-                            borderRadius: BorderRadius.circular(20.r),
-                            border: Border.all(color: kPrimaryColor),
-                          ),
-                          child: Text(
-                            state.prediction.penyakit,
-                            style: blackTextStyle.copyWith(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w600,
+            BlocBuilder<NaiveBayesProcesCubit, NaiveBayesProcesState>(
+              builder: (context, state) {
+                if (state is NaiveBayesProcesLoaded) {
+                  return ListView.separated(
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 30.w,
+                              vertical: 16.h,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Container(
-                          height: 25.h,
-                          width: 80.w,
-                          decoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            borderRadius: BorderRadius.vertical(
-                              bottom: Radius.circular(10.r),
+                            margin: EdgeInsets.only(top: 20.h),
+                            decoration: BoxDecoration(
+                              color: kWhiteColor,
+                              borderRadius: BorderRadius.circular(20.r),
+                              border: Border.all(color: kPrimaryColor),
                             ),
-                          ),
-                          child: Center(
                             child: Text(
-                              '${state.prediction.akurasi}%',
-                              style: blackTextStyle.copyWith(),
+                              penyakit[state.prediction.penyakit[index]
+                                  ['penyakit']],
+                              style: blackTextStyle.copyWith(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
-                        ),
-                        Column(
-                          children: [
-                            GestureDetector(
-                              child: Container(
-                                height: 39.h,
-                                width: 310.w,
-                                margin: EdgeInsets.symmetric(vertical: 30.h),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20.w,
-                                  vertical: 10.h,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 25.h,
+                                width: 80.w,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10.r),
+                                  ),
                                 ),
+                                child: Center(
+                                  child: Text(
+                                    state.prediction.penyakit[index]
+                                                ['penyakit'] >
+                                            5
+                                        ? "Hama"
+                                        : "Penyakit",
+                                    style: blackTextStyle.copyWith(
+                                      fontSize: 12.sp,
+                                      color: kWhiteColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 25.h,
+                                width: 80.w,
                                 decoration: BoxDecoration(
                                   color: kPrimaryColor,
-                                  borderRadius: BorderRadius.circular(50.r),
+                                  borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(10.r),
+                                  ),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Solusi',
-                                      style: blackTextStyle,
-                                    ),
-                                    const Icon(
-                                      Icons.arrow_drop_down,
-                                    )
-                                  ],
+                                child: Center(
+                                  child: Text(
+                                    state.prediction.penyakit[index]['akurasi']
+                                        .toString()
+                                        .substring(0, 10),
+                                    style: blackTextStyle.copyWith(
+                                        fontSize: 12.sp),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              height: 380.h,
-                              width: 310.w,
-                              padding: EdgeInsets.all(16.r),
-                              decoration: BoxDecoration(
-                                color: kPrimaryColor,
-                                borderRadius: BorderRadius.circular(20.r),
-                              ),
-                              child: NotificationListener(
-                                onNotification: (notification) {
-                                  if (notification
-                                      is OverscrollIndicatorNotification) {
-                                    notification.disallowIndicator();
-                                  }
-                                  return false;
-                                },
-                                child: ListView(
-                                  children: [
-                                    Text(
-                                      solusi[state.prediction.penyakit]!,
-                                      style: blackTextStyle.copyWith(
-                                        fontSize: 12.sp,
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                child: Container(
+                                  height: 39.h,
+                                  width: 310.w,
+                                  margin:
+                                      EdgeInsets.only(top: 30.h, bottom: 10.h),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20.w,
+                                    vertical: 10.h,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: kPrimaryColor,
+                                    borderRadius: BorderRadius.circular(10.r),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Solusi',
+                                        style: blackTextStyle,
                                       ),
-                                    ),
-                                  ],
+                                      const Icon(
+                                        Icons.arrow_drop_down,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 100.0,
-                        ),
-                      ],
-                    );
-                  }
-                  return Container();
-                },
-              ),
+                              Container(
+                                height: 380.h,
+                                width: 310.w,
+                                padding: EdgeInsets.all(16.r),
+                                decoration: BoxDecoration(
+                                  color: kPrimaryColor,
+                                  borderRadius: BorderRadius.circular(10.r),
+                                ),
+                                child: NotificationListener(
+                                  onNotification: (notification) {
+                                    if (notification
+                                        is OverscrollIndicatorNotification) {
+                                      notification.disallowIndicator();
+                                    }
+                                    return false;
+                                  },
+                                  child: ListView(
+                                    children: [
+                                      Text(
+                                        solusi[penyakit[state.prediction
+                                                .penyakit[index]['penyakit']]]
+                                            .toString(),
+                                        style: blackTextStyle.copyWith(
+                                          fontSize: 12.sp,
+                                        ),
+                                        textAlign: TextAlign.justify,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 50.0),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (_, index) => const SizedBox(
+                      width: 10.0,
+                    ),
+                    itemCount: state.prediction.tampilkan,
+                  );
+                }
+                return Container();
+              },
             ),
           ],
         ),

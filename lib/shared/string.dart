@@ -4,9 +4,9 @@ List<String> penyakit = [
   "Penggerek Batang",
   "Kutu Hijau",
   "Kutu Putih",
-  "Karat Daun Kopi ",
+  "Karat Daun Kopi",
   "Bercak Daun Kopi",
-  "Nematoda",
+  "Nemotoda",
   "Jamur Upas",
   "Penyakit Akar"
 ];

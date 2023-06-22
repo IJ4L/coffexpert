@@ -35,7 +35,7 @@ class Diagnosisscreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      'Pilih Gejala !! (1 sampai 4)',
+                      state.message,
                       style: cocolateTextStyle.copyWith(fontWeight: semiBold),
                     ),
                     backgroundColor: kPrimaryColor,
@@ -46,7 +46,8 @@ class Diagnosisscreen extends StatelessWidget {
               }
               if (state is NaiveBayesProcesLoaded) {
                 context.read<HistoryCubit>().saveHistory(HistoryModel(
-                      penyakit: state.prediction.penyakit,
+                      penyakit:
+                          penyakit[state.prediction.penyakit[0]['penyakit']],
                       gejala: state.prediction.gejala,
                       at: DateTime.now().toIso8601String(),
                     ));
@@ -58,12 +59,19 @@ class Diagnosisscreen extends StatelessWidget {
                 onTap: () => naiveCubit.onPredict(
                   convertData(selectEvent.state),
                 ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 22.w),
-                  child: SvgPicture.asset(
-                    'assets/icons/ico_science.svg',
-                    width: 20.r,
-                    height: 20.r,
+                child: Container(
+                  height: 40.h,
+                  width: 90.w,
+                  margin: EdgeInsets.symmetric(horizontal: 22.w, vertical: 4.h),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: kPrimaryColor, width: 2),
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Prediksi',
+                      style: cocolateTextStyle.copyWith(fontWeight: semiBold),
+                    ),
                   ),
                 ),
               );

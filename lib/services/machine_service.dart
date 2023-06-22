@@ -1,271 +1,193 @@
-import 'package:coffe_brain/models/prediction_model.dart';
-import 'package:dartz/dartz.dart';
-import 'package:logger/logger.dart';
+// import 'package:coffe_brain/models/prediction_model.dart';
+// import 'package:dartz/dartz.dart';
+// import 'package:logger/logger.dart';
 
-class NaiveBayes {
-  Map<String, Map<String, int>> evidence = {};
-  Map<String, int> classCounts = {};
-  Map<String, Map<String, double>> featureWeights = {};
-  int vocabularySize = 0;
+// class NaiveBayes {
+//   Map<String, Map<String, int>> evidence = {};
+//   Map<String, int> classCounts = {};
+//   Map<String, Map<String, double>> featureWeights = {};
+//   int vocabularySize = 0;
 
-  void addEvidence(List<String> features, String className) {
-    final evidenceKey = features.join(',');
+//   void addEvidence(List<String> features, String className) {
+//     final evidenceKey = features.join(',');
 
-    evidence[className] ??= {};
-    evidence[className]![evidenceKey] ??= 0;
+//     evidence[className] ??= {};
+//     evidence[className]![evidenceKey] ??= 0;
 
-    evidence[className]![evidenceKey] = evidence[className]![evidenceKey]! + 1;
-    classCounts[className] = (classCounts[className] ?? 0) + 1;
+//     evidence[className]![evidenceKey] = evidence[className]![evidenceKey]! + 1;
+//     classCounts[className] = (classCounts[className] ?? 0) + 1;
 
-    vocabularySize += features.length;
-  }
+//     vocabularySize += features.length;
+//   }
 
-  void printData() {
-    Logger().wtf("Jumlah Class");
-    Logger().i(classCounts);
-    Logger().wtf("Bukti");
-    Logger().i(evidence);
-    Logger().wtf("Ukursan Kosa Kata");
-    Logger().i(vocabularySize);
-    Logger().wtf("Bobot Fitur");
-    Logger().i(featureWeights);
-  }
+//   void printData() {
+//     Logger().wtf("Jumlah Class");
+//     Logger().i(classCounts);
+//     Logger().wtf("Bukti");
+//     Logger().i(evidence);
+//     Logger().wtf("Ukursan Kosa Kata");
+//     Logger().i(vocabularySize);
+//     Logger().wtf("Bobot Fitur");
+//     Logger().i(featureWeights);
+//   }
 
-  void calculateFeatureWeights() {
-    for (final className in evidence.keys) {
-      featureWeights[className] = {};
+//   void calculateFeatureWeights() {
+//     for (final className in evidence.keys) {
+//       featureWeights[className] = {};
 
-      final classEvidence = evidence[className];
+//       final classEvidence = evidence[className];
 
-      for (final evidenceKey in classEvidence!.keys) {
-        final featureCount = classEvidence[evidenceKey]!;
-        final features = evidenceKey.split(',');
+//       for (final evidenceKey in classEvidence!.keys) {
+//         final featureCount = classEvidence[evidenceKey]!;
+//         final features = evidenceKey.split(',');
 
-        for (final feature in features) {
-          featureWeights[className]![feature] ??= 0;
-          featureWeights[className]![feature] =
-              featureWeights[className]![feature]! + featureCount.toDouble();
-        }
-      }
-    }
-  }
+//         for (final feature in features) {
+//           featureWeights[className]![feature] ??= 0;
+//           featureWeights[className]![feature] =
+//               featureWeights[className]![feature]! + featureCount.toDouble();
+//         }
+//       }
+//     }
+//   }
 
-  Map<String, double> predict(List<String> features) {
-    final Map<String, double> probabilities = {};
+//   Map<String, double> predict(List<String> features) {
+//     final Map<String, double> probabilities = {};
 
-    for (final className in evidence.keys) {
-      final classEvidence = evidence[className];
-      final classCount = classCounts[className]!;
-      double classProbability =
-          classCount / classCounts.values.reduce((a, b) => a + b);
-      double featureProbability = 1;
+//     for (final className in evidence.keys) {
+//       final classEvidence = evidence[className];
+//       final classCount = classCounts[className]!;
+//       double classProbability =
+//           classCount / classCounts.values.reduce((a, b) => a + b);
+//       double featureProbability = 1;
 
-      for (final feature in features) {
-        final evidenceKey = feature;
-        final featureCount = classEvidence?[evidenceKey] ?? 0;
+//       for (final feature in features) {
+//         final evidenceKey = feature;
+//         final featureCount = classEvidence?[evidenceKey] ?? 0;
 
-        featureProbability *=
-            (featureCount + 1) / (classCount + vocabularySize);
+//         featureProbability *=
+//             (featureCount + 1) / (classCount + vocabularySize);
 
-        if (featureWeights.containsKey(className) &&
-            featureWeights[className]!.containsKey(feature)) {
-          final featureWeight = featureWeights[className]![feature]!;
-          featureProbability *= featureWeight;
-        }
-      }
+//         if (featureWeights.containsKey(className) &&
+//             featureWeights[className]!.containsKey(feature)) {
+//           final featureWeight = featureWeights[className]![feature]!;
+//           featureProbability *= featureWeight;
+//         }
+//       }
 
-      probabilities[className] =
-          (classProbability * featureProbability * 100).toDouble();
-    }
+//       probabilities[className] =
+//           (classProbability * featureProbability * 100).toDouble();
+//     }
 
-    final totalProbability = probabilities.values.reduce((a, b) => a + b);
-    probabilities.updateAll((className, probability) {
-      return probability / totalProbability;
-    });
+//     final totalProbability = probabilities.values.reduce((a, b) => a + b);
+//     probabilities.updateAll((className, probability) {
+//       return probability / totalProbability;
+//     });
 
-    Logger().w(probabilities);
+//     Logger().w(probabilities);
 
-    return probabilities;
-  }
+//     return probabilities;
+//   }
 
-  String? getPredictedClass(Map<String, double> prediction) {
-    String? predictedClass;
-    double highestProbability = 0;
+//   String? getPredictedClass(Map<String, double> prediction) {
+//     String? predictedClass;
+//     double highestProbability = 0;
 
-    for (final className in prediction.keys) {
-      if (prediction[className]! > highestProbability) {
-        highestProbability = prediction[className]!;
-        predictedClass = className;
-      }
-    }
+//     for (final className in prediction.keys) {
+//       if (prediction[className]! > highestProbability) {
+//         highestProbability = prediction[className]!;
+//         predictedClass = className;
+//       }
+//     }
 
-    return predictedClass;
-  }
-}
+//     return predictedClass;
+//   }
+// }
 
-Future<Either<String, PredictionModel>> procesNaiveBayes(
-    List<String> gejala) async {
-  final classifier = NaiveBayes();
+// Future<Either<String, PredictionModel>> procesNaiveBayes(
+//     List<String> gejala) async {
+//   final classifier = NaiveBayes();
 
-  classifier.addEvidence(['G1', 'G2', 'G3'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G1', 'G3', 'G2'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G2', 'G1', 'G3'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G2', 'G3', 'G1'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G3', 'G1', 'G2'], 'Penggerek Buah Kopi');
-  classifier.addEvidence(['G3', 'G2', 'G1'], 'Penggerek Buah Kopi');
+//   classifier.addEvidence(['G1'], 'Penggerek Buah Kopi');
+//   classifier.addEvidence(['G2'], 'Penggerek Buah Kopi');
+//   classifier.addEvidence(['G3'], 'Penggerek Buah Kopi');
 
-  classifier.addEvidence(['G4', 'G5', 'G6', 'G7'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G4', 'G5', 'G7', 'G6'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G4', 'G6', 'G5', 'G7'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G4', 'G6', 'G7', 'G5'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G4', 'G7', 'G5', 'G6'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G4', 'G7', 'G6', 'G5'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G5', 'G4', 'G6', 'G7'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G5', 'G4', 'G7', 'G6'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G5', 'G6', 'G4', 'G7'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G5', 'G6', 'G7', 'G4'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G5', 'G7', 'G4', 'G6'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G5', 'G7', 'G6', 'G4'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G6', 'G4', 'G5', 'G7'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G6', 'G4', 'G7', 'G5'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G6', 'G5', 'G4', 'G7'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G6', 'G5', 'G7', 'G4'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G6', 'G7', 'G4', 'G5'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G6', 'G7', 'G5', 'G4'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G7', 'G4', 'G5', 'G6'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G7', 'G4', 'G6', 'G5'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G7', 'G5', 'G4', 'G6'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G7', 'G5', 'G6', 'G4'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G7', 'G6', 'G4', 'G5'], 'Penggerek Cabang Kopi');
-  classifier.addEvidence(['G7', 'G6', 'G5', 'G4'], 'Penggerek Cabang Kopi');
+//   classifier.addEvidence(['G4'], 'Penggerek Cabang Kopi');
+//   classifier.addEvidence(['G5'], 'Penggerek Cabang Kopi');
+//   classifier.addEvidence(['G6'], 'Penggerek Cabang Kopi');
+//   classifier.addEvidence(['G7'], 'Penggerek Cabang Kopi');
 
-  classifier.addEvidence(['G8', 'G9', 'G10'], 'Penggerek Batang');
-  classifier.addEvidence(['G8', 'G10', 'G9'], 'Penggerek Batang');
-  classifier.addEvidence(['G9', 'G8', 'G10'], 'Penggerek Batang');
-  classifier.addEvidence(['G9', 'G10', 'G8'], 'Penggerek Batang');
-  classifier.addEvidence(['G10', 'G8', 'G9'], 'Penggerek Batang');
-  classifier.addEvidence(['G10', 'G9', 'G8'], 'Penggerek Batang');
+//   classifier.addEvidence(['G8'], 'Penggerek Batang');
+//   classifier.addEvidence(['G9'], 'Penggerek Batang');
+//   classifier.addEvidence(['G10'], 'Penggerek Batang');
 
-  classifier.addEvidence(['G11', 'G12'], 'Kutu Hijau');
-  classifier.addEvidence(['G12', 'G11'], 'Kutu Hijau');
-  classifier.addEvidence(['G11'], 'Kutu Hijau');
-  classifier.addEvidence(['G12'], 'Kutu Hijau');
+//   classifier.addEvidence(['G12'], 'Kutu Hijau');
+//   classifier.addEvidence(['G11'], 'Kutu Hijau');
 
-  classifier.addEvidence(['G13', 'G14'], 'Kutu Putih');
-  classifier.addEvidence(['G14', 'G13'], 'Kutu Putih');
-  classifier.addEvidence(['G13'], 'Kutu Putih');
-  classifier.addEvidence(['G14'], 'Kutu Putih');
+//   classifier.addEvidence(['G14'], 'Kutu Putih');
+//   classifier.addEvidence(['G13'], 'Kutu Putih');
 
-  classifier.addEvidence(['G15', 'G16', 'G17'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G15', 'G17', 'G16'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G16', 'G15', 'G17'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G16', 'G17', 'G15'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G17', 'G15', 'G16'], 'Karat Daun Kopi');
-  classifier.addEvidence(['G17', 'G16', 'G15'], 'Karat Daun Kopi');
+//   classifier.addEvidence(['G15'], 'Karat Daun Kopi');
+//   classifier.addEvidence(['G16'], 'Karat Daun Kopi');
+//   classifier.addEvidence(['G17'], 'Karat Daun Kopi');
 
-  classifier.addEvidence(['G18', 'G19', 'G20', 'G21'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G18', 'G19', 'G21', 'G20'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G18', 'G20', 'G19', 'G21'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G18', 'G20', 'G21', 'G19'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G18', 'G21', 'G19', 'G20'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G18', 'G21', 'G20', 'G19'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G19', 'G18', 'G20', 'G21'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G19', 'G18', 'G21', 'G20'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G19', 'G20', 'G18', 'G21'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G19', 'G20', 'G21', 'G18'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G19', 'G21', 'G18', 'G20'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G19', 'G21', 'G20', 'G18'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G20', 'G18', 'G19', 'G21'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G20', 'G18', 'G21', 'G19'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G20', 'G19', 'G18', 'G21'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G20', 'G19', 'G21', 'G18'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G20', 'G21', 'G18', 'G19'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G20', 'G21', 'G19', 'G18'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G21', 'G18', 'G19', 'G20'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G21', 'G18', 'G20', 'G19'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G21', 'G19', 'G18', 'G20'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G21', 'G19', 'G20', 'G18'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G21', 'G20', 'G18', 'G19'], 'Bercak Daun Kopi');
-  classifier.addEvidence(['G21', 'G20', 'G19', 'G18'], 'Bercak Daun Kopi');
+//   classifier.addEvidence(['G18'], 'Bercak Daun Kopi');
+//   classifier.addEvidence(['G19'], 'Bercak Daun Kopi');
+//   classifier.addEvidence(['G20'], 'Bercak Daun Kopi');
+//   classifier.addEvidence(['G21'], 'Bercak Daun Kopi');
 
-  classifier.addEvidence(['G22', 'G23', 'G24', 'G25'], 'Nemotoda');
-  classifier.addEvidence(['G22', 'G23', 'G25', 'G24'], 'Nemotoda');
-  classifier.addEvidence(['G22', 'G24', 'G23', 'G25'], 'Nemotoda');
-  classifier.addEvidence(['G22', 'G24', 'G25', 'G23'], 'Nemotoda');
-  classifier.addEvidence(['G22', 'G25', 'G23', 'G24'], 'Nemotoda');
-  classifier.addEvidence(['G22', 'G25', 'G24', 'G23'], 'Nemotoda');
-  classifier.addEvidence(['G23', 'G22', 'G24', 'G25'], 'Nemotoda');
-  classifier.addEvidence(['G23', 'G22', 'G25', 'G24'], 'Nemotoda');
-  classifier.addEvidence(['G23', 'G24', 'G22', 'G25'], 'Nemotoda');
-  classifier.addEvidence(['G23', 'G24', 'G25', 'G22'], 'Nemotoda');
-  classifier.addEvidence(['G23', 'G25', 'G22', 'G24'], 'Nemotoda');
-  classifier.addEvidence(['G23', 'G25', 'G24', 'G22'], 'Nemotoda');
-  classifier.addEvidence(['G24', 'G22', 'G23', 'G25'], 'Nemotoda');
-  classifier.addEvidence(['G24', 'G22', 'G25', 'G23'], 'Nemotoda');
-  classifier.addEvidence(['G24', 'G23', 'G22', 'G25'], 'Nemotoda');
-  classifier.addEvidence(['G24', 'G23', 'G25', 'G22'], 'Nemotoda');
-  classifier.addEvidence(['G24', 'G25', 'G22', 'G23'], 'Nemotoda');
-  classifier.addEvidence(['G24', 'G25', 'G23', 'G22'], 'Nemotoda');
-  classifier.addEvidence(['G25', 'G22', 'G23', 'G24'], 'Nemotoda');
-  classifier.addEvidence(['G25', 'G22', 'G24', 'G23'], 'Nemotoda');
-  classifier.addEvidence(['G25', 'G23', 'G22', 'G24'], 'Nemotoda');
-  classifier.addEvidence(['G25', 'G23', 'G24', 'G22'], 'Nemotoda');
-  classifier.addEvidence(['G25', 'G24', 'G22', 'G23'], 'Nemotoda');
-  classifier.addEvidence(['G25', 'G24', 'G23', 'G22'], 'Nemotoda');
+//   classifier.addEvidence(['G22'], 'Nemotoda');
+//   classifier.addEvidence(['G23'], 'Nemotoda');
+//   classifier.addEvidence(['G24'], 'Nemotoda');
+//   classifier.addEvidence(['G25'], 'Nemotoda');
 
-  classifier.addEvidence(['G26', 'G27', 'G28'], 'Jamur Upas');
-  classifier.addEvidence(['G26', 'G28', 'G27'], 'Jamur Upas');
-  classifier.addEvidence(['G27', 'G26', 'G28'], 'Jamur Upas');
-  classifier.addEvidence(['G27', 'G28', 'G26'], 'Jamur Upas');
-  classifier.addEvidence(['G28', 'G26', 'G27'], 'Jamur Upas');
-  classifier.addEvidence(['G28', 'G27', 'G26'], 'Jamur Upas');
+//   classifier.addEvidence(['G26'], 'Jamur Upas');
+//   classifier.addEvidence(['G27'], 'Jamur Upas');
+//   classifier.addEvidence(['G28'], 'Jamur Upas');
 
-  classifier.addEvidence(['G29', 'G30'], 'Penyakit Akar');
-  classifier.addEvidence(['G30', 'G29'], 'Penyakit Akar');
-  classifier.addEvidence(['G29'], 'Penyakit Akar');
-  classifier.addEvidence(['G30'], 'Penyakit Akar');
+//   classifier.addEvidence(['G30'], 'Penyakit Akar');
+//   classifier.addEvidence(['G29'], 'Penyakit Akar');
 
-  classifier.calculateFeatureWeights();
+//   classifier.calculateFeatureWeights();
 
-  final featuresToPredict = gejala;
+//   final featuresToPredict = gejala;
 
-  classifier.printData();
+//   classifier.printData();
 
-  bool areFeaturesValid = true;
-  for (final feature in featuresToPredict) {
-    if (!classifier.featureWeights.values.any((weights) {
-      return weights.containsKey(feature);
-    })) {
-      areFeaturesValid = false;
-      break;
-    }
-  }
+//   bool areFeaturesValid = true;
+//   for (final feature in featuresToPredict) {
+//     if (!classifier.featureWeights.values.any((weights) {
+//       return weights.containsKey(feature);
+//     })) {
+//       areFeaturesValid = false;
+//       break;
+//     }
+//   }
 
-  if (areFeaturesValid && gejala.isNotEmpty) {
-    final prediction = classifier.predict(featuresToPredict);
-    final predictedClass = classifier.getPredictedClass(prediction);
+//   if (areFeaturesValid && gejala.isNotEmpty) {
+//     final prediction = classifier.predict(featuresToPredict);
+//     final predictedClass = classifier.getPredictedClass(prediction);
 
-    double highestProbability = 0;
+//     double highestProbability = 0;
 
-    for (final className in prediction.keys) {
-      final probability = prediction[className]!;
+//     for (final className in prediction.keys) {
+//       final probability = prediction[className]!;
 
-      if (probability > highestProbability) {
-        highestProbability = probability;
-      }
-    }
+//       if (probability > highestProbability) {
+//         highestProbability = probability;
+//       }
+//     }
 
-    if (predictedClass != null) {
-      PredictionModel data = PredictionModel(
-        penyakit: predictedClass,
-        akurasi: (highestProbability * 100).toStringAsFixed(2),
-        gejala: gejala,
-      );
-      return Right(data);
-    } else {
-      return const Left('Tidak dapat memprediksi kelas.');
-    }
-  } else {
-    return const Left('Fitur yang dimasukkan tidak ada dalam data pelatihan');
-  }
-}
+//     if (predictedClass != null) {
+//       // PredictionModel data = PredictionModel(
+//       //   penyakit: predictedClass,
+//       //   akurasi: (highestProbability * 100).toStringAsFixed(2),
+//       //   gejala: gejala,
+//       // );
+//       return Right(data);
+//     } else {
+//       return const Left('Tidak dapat memprediksi kelas.');
+//     }
+//   } else {
+//     return const Left('Fitur yang dimasukkan tidak ada dalam data pelatihan');
+//   }
+// }

@@ -1,6 +1,11 @@
 // ignore_for_file: avoid_print
 
-void main() {
+import 'package:dartz/dartz.dart';
+
+import '../models/prediction_model.dart';
+
+Future<Either<String, PredictionModel>> procesOfNaiveBayes(
+    List<String> pilihan) async {
   double n = 1;
   double p = 0.1;
   int m = 30;
@@ -21,13 +26,9 @@ void main() {
     {'G29': 0, 'G30': 0}
   ];
 
-  List<String> pilihan() {
-    return ['G1', 'G2', '3', 'G17'];
-  }
-
   List<Map<String, int>> generatedList = List.generate(
     10,
-    (index) => pilihan().fold<Map<String, int>>(
+    (index) => pilihan.fold<Map<String, int>>(
       {},
       (map, key) => map..[key] = 0,
     ),
@@ -91,12 +92,27 @@ void main() {
     tampilkan = 0;
   }
 
-  for (var i = 0; i < probabilities.length; i++) {
-    print(probabilities[i]);
-    print('');
+  if (highestProbability.toString().substring(0, 10) !=
+      secondHighestProbability.toString().substring(0, 10)) {
+    tampilkan = 1;
   }
 
-  print('Probabilitas tertinggi: $highestProbability');
-  print('Probabilitas kedua tertinggi: $secondHighestProbability');
-  print('Tampilkan: $tampilkan');
+  if (tampilkan == 2 || tampilkan == 1) {
+    return Right(PredictionModel(
+      penyakit: probabilities,
+      gejala: pilihan,
+      tampilkan: tampilkan,
+    ));
+  } else {
+    return const Left('Masukkan Gejala Yang Tepat');
+  }
+
+  // for (var i = 0; i < probabilities.length; i++) {
+  //   print(probabilities[i]);
+  //   print('');
+  // }
+
+  // print('Probabilitas tertinggi: $highestProbability');
+  // print('Probabilitas kedua tertinggi: $secondHighestProbability');
+  // print('Tampilkan: $tampilkan');
 }

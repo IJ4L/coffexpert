@@ -1,11 +1,11 @@
 class PredictionModel {
-  final String penyakit;
-  final String akurasi;
+  final List<Map<String, dynamic>> penyakit;
   final List<String> gejala;
+  final int tampilkan;
 
   PredictionModel({
     required this.penyakit,
-    required this.akurasi,
     required this.gejala,
+    required this.tampilkan,
   });
 }

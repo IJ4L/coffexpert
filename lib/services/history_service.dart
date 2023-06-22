@@ -13,7 +13,6 @@ class HistoryService {
     existingHistory.add(newHistory);
     final encodedHistory = json.encode(existingHistory);
     await sharedPreferences.setString(key, encodedHistory);
-    print('succes');
   }
 
   Future<List<HistoryModel>> getHistory() async {
