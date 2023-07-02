@@ -60,9 +60,9 @@ class Diagnosisscreen extends StatelessWidget {
                   convertData(selectEvent.state),
                 ),
                 child: Container(
-                  height: 40.h,
+                  height: 30.h,
                   width: 90.w,
-                  margin: EdgeInsets.symmetric(horizontal: 22.w, vertical: 4.h),
+                  margin: EdgeInsets.symmetric(horizontal: 22.w, vertical: 8.h),
                   decoration: BoxDecoration(
                     border: Border.all(color: kPrimaryColor, width: 2),
                     borderRadius: BorderRadius.circular(10.r),

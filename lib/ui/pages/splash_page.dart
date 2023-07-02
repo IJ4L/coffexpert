@@ -44,11 +44,16 @@ class Splashscreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 22.h),
-                  Text(
-                    'Lorem ipsum dolor sit amet consectetur.\nCommodo morbi quis maecenas lacus\nvestibulum ultricies risus. ',
-                    style: blackTextStyle.copyWith(
-                        fontWeight: regular, fontSize: 14.sp),
-                    textAlign: TextAlign.center,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Text(
+                      'Sistem pakar yang dikembangkan khusus untuk mendeteksi, mendiagnosis, dan memberikan solusi terkait penyakit yang mungkin menyerang tanaman kopi',
+                      style: blackTextStyle.copyWith(
+                        fontWeight: regular,
+                        fontSize: 12.sp,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                   GestureDetector(
                     onTap: () => Navigator.pushReplacementNamed(

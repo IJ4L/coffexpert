@@ -11,8 +11,8 @@ class NaiveBayesProcesCubit extends Cubit<NaiveBayesProcesState> {
 
   void onPredict(List<String> selectedGejala) async {
     emit(NaiveBayesProcesLoading());
-    if (selectedGejala.isEmpty) {
-      emit(const NaiveBayesProcesFailure('Pilih Gejala !! (1 sampai 4)'));
+    if (selectedGejala.length < 2) {
+      emit(const NaiveBayesProcesFailure('Pilih Gejala !! (2 sampai 4)'));
     } else {
       final result = await procesOfNaiveBayes(selectedGejala);
       result.fold(
