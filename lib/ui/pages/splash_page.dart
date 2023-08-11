@@ -1,7 +1,6 @@
 import 'package:coffe_brain/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class Splashscreen extends StatelessWidget {
   const Splashscreen({super.key});
@@ -12,10 +11,8 @@ class Splashscreen extends StatelessWidget {
       backgroundColor: kPrimaryColor,
       body: Stack(
         children: [
-          SizedBox(
-            height: 420.h,
-            width: double.infinity,
-            child: SvgPicture.asset('assets/images/img_splash.svg'),
+          Image.asset(
+            "assets/images/hero.png",
           ),
           Align(
             alignment: Alignment.bottomCenter,
